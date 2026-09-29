@@ -1,9 +1,5 @@
-import React from 'react'
+import { Hero } from "../components/home/Hero";
 
-export default function page() {
-  return (
-    <div>
-      <h1>TM Furnitures</h1>
-    </div>
-  )
+export default function Home() {
+  return <Hero />;
 }

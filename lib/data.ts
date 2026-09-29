@@ -21,12 +21,9 @@ export const siteConfig = {
   description:
     "Custom and ready-made furniture, crafted in Abuja. Tell us what you have in mind and we'll send you a price.",
 
-  // TODO: confirm the exact logo filename inside /public
   logo: "/TM-logo.jpeg",
 
-  // TODO: confirm with the owner. WhatsApp number in international format,
-  // no "+" and no spaces (Nigeria = 234, drop the leading 0).
-  whatsapp: "2349168549455",
+  whatsapp: "08057789650",
   // TODO: replace with the real business email
   email: "tm@gmail.com",
 
@@ -58,6 +55,50 @@ export const navLinks: NavLink[] = [
 
 export type Category = { slug: string; label: string };
 
+export type HeroSlide = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  image: string;
+  tag: string;
+  name?: string;
+  category?: string;
+};
+
+export const heroSlides: HeroSlide[] = [
+  {
+    id: "living",
+    name: "Living room collection",
+    category: "living-room",
+    eyebrow: "Handcrafted comfort",
+    title: "Furniture that turns everyday rooms into a statement.",
+    description:
+      "Custom-made sofas, statement chairs, and refined pieces designed for relaxed living and elevated spaces.",
+    image: "/f1.png",
+    tag: "Living room",
+  },
+  {
+    id: "dining",
+    eyebrow: "Made for gathering",
+    title: "Dining pieces that bring warmth, elegance, and character.",
+    description:
+      "Modern dining sets and tailored wood finishes that give your home a warm, welcoming presence.",
+    image: "/f5.png",
+    tag: "Dining",
+    
+  },
+  {
+    id: "bedroom",
+    eyebrow: "Quiet luxury",
+    title: "Bedrooms designed for rest, rhythm, and personal style.",
+    description:
+      "Thoughtful bedroom furniture, custom details, and soft textures that create a more luxurious everyday routine.",
+    image: "/f9.png",
+    tag: "Bedroom",
+  },
+];
+
 export const categories: Category[] = [
   { slug: "living-room", label: "Living room" },
   { slug: "bedroom", label: "Bedroom" },
@@ -67,4 +108,18 @@ export const categories: Category[] = [
   { slug: "outdoor", label: "Outdoor" },
   { slug: "glass", label: "Glass products" },
   { slug: "custom", label: "Custom designs" },
+];
+
+export type ShowcaseSlide = {
+  id: string;
+  name: string;
+  category?: string;
+  image: string;
+};
+
+// Used by the arch frame in components/home/Hero.tsx
+export const showcaseSlides: ShowcaseSlide[] = [
+  { id: "showcase-living", name: "Living room collection", image: "/f1.png" },
+  { id: "showcase-dining", name: "Dining collection", image: "/f5.png" },
+  { id: "showcase-bedroom", name: "Bedroom collection", image: "/f9.png" },
 ];

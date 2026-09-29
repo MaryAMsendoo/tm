@@ -29,15 +29,17 @@ export function buildEnquiryText(items: EnquiryItem[]) {
         ? item.image
         : new URL(item.image, window.location.origin).toString();
 
-    return `${entry}\n   Image: ${imageUrl}`;
+    return `${entry}\n   Reference image: ${imageUrl}`;
   });
 
   return [
-    `Hello ${siteConfig.shortName}, I'd like a price for:`,
+    `Hello ${siteConfig.shortName},` ,
+    "I'd like to enquire about the following pieces:",
     "",
     ...lines,
     "",
-    "Please let me know the price and availability. Thank you.",
+    "Please share the price, finish options, and availability for each item.",
+    "Thank you.",
   ].join("\n");
 }
 

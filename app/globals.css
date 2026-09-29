@@ -1,8 +1,66 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-wood: #4d2d24;
+  --brand-wood-deep: #2f1b16;
+  --brand-ivory: #f7f1e6;
+  --brand-cream: #e8dcc8;
+  --brand-gold: #c9a66a;
+  --brand-gold-deep: #b88d49;
+  --brand-charcoal: #1a1817;
+  --brand-sand: #d9c4a2;
+  --background: #f6f1ea;
+  --foreground: #1f1a17;
+  --about-surface: #4d2d24;
+  --about-text: #f7f1e6;
+  --border-subtle: rgba(77, 45, 36, 0.12);
+  --surface-header: rgba(247, 241, 230, 0.96);
+  --surface-faint: rgba(255, 255, 255, 0.32);
+  --surface-card: rgba(255, 255, 255, 0.5);
+  --surface-strong: rgba(255, 255, 255, 0.6);
+  --surface-toast: rgba(255, 255, 255, 0.92);
+  --text-muted: rgba(26, 24, 23, 0.76);
+  --text-subtle: rgba(26, 24, 23, 0.7);
+  --hero-panel-start: #f3eadb;
+  --hero-panel-end: #e8d7b7;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --brand-wood: #d6c3a3;
+  --brand-wood-deep: #f2e7d5;
+  --brand-ivory: #1b1d1a;
+  --brand-cream: #292b26;
+  --brand-gold: #c9a66a;
+  --brand-gold-deep: #dfbd7b;
+  --brand-charcoal: #f2ede4;
+  --brand-sand: #625642;
+  --background: #171917;
+  --foreground: #f2ede4;
+  --about-surface: #292b26;
+  --about-text: #f2ede4;
+  --border-subtle: rgba(235, 224, 205, 0.14);
+  --surface-header: rgba(27, 29, 26, 0.96);
+  --surface-faint: rgba(255, 255, 255, 0.035);
+  --surface-card: rgba(255, 255, 255, 0.045);
+  --surface-strong: rgba(255, 255, 255, 0.07);
+  --surface-toast: rgba(37, 39, 35, 0.96);
+  --text-muted: rgba(242, 237, 228, 0.78);
+  --text-subtle: rgba(242, 237, 228, 0.68);
+  --hero-panel-start: #252722;
+  --hero-panel-end: #34352e;
+}
+
+.theme-toggle-sun {
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle-moon {
+  display: none;
+}
+
+[data-theme="dark"] .theme-toggle-sun {
+  display: block;
 }
 
 @theme inline {
@@ -12,15 +70,34 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }

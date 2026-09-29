@@ -23,11 +23,11 @@ export const siteConfig = {
 
   logo: "/TM-logo.jpeg",
 
-  whatsapp: "08057789650",
+  whatsapp: "+2348057789650",
   // TODO: replace with the real business email
   email: "tm@gmail.com",
 
-  phones: ["09168549455", "07012724991"],
+  phones: ["+2349168549455", "+2347012724991"],
   address: "Gosa, Airport Road, Abuja, FCT, Nigeria",
 
   // Leave href empty until you have the real link; empty ones are hidden.

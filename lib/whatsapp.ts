@@ -20,10 +20,18 @@ export function productWhatsappUrl(item: Pick<EnquiryItem, "name" | "category">)
 }
 
 export function buildEnquiryText(items: EnquiryItem[]) {
-  const lines = items.map(
-    (item, i) =>
-      `${i + 1}. ${item.name}${item.category ? ` (${item.category})` : ""}`,
-  );
+  const lines = items.map((item, i) => {
+    const entry = `${i + 1}. ${item.name}${item.category ? ` (${item.category})` : ""}`;
+    if (!item.image) return entry;
+
+    const imageUrl =
+      item.image.startsWith("http") || typeof window === "undefined"
+        ? item.image
+        : new URL(item.image, window.location.origin).toString();
+
+    return `${entry}\n   Image: ${imageUrl}`;
+  });
+
   return [
     `Hello ${siteConfig.shortName}, I'd like a price for:`,
     "",

@@ -23,7 +23,7 @@ export function PortfolioTeaser() {
         <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <WordReveal
-              text="Recent work."
+              text="Designs for your space."
               className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] text-[var(--brand-wood)]"
             />
             <Link

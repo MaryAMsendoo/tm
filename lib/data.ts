@@ -105,6 +105,7 @@ export const heroSlides: HeroSlide[] = [
 export const categories: Category[] = [
   { slug: "living-room", label: "Living room" },
   { slug: "bedroom", label: "Bedroom" },
+  { slug: "wall-pieces", label: "Wall pieces" },
   { slug: "office", label: "Office" },
   { slug: "dining", label: "Dining" },
   { slug: "kitchen", label: "Kitchen" },

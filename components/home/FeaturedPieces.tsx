@@ -16,7 +16,7 @@ export function FeaturedPieces() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden">
-        <SectionBackdrop variant="line" tone="light" className="opacity-90" />
+        <SectionBackdrop variant="amber" tone="light" className="opacity-90" />
 
         <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">

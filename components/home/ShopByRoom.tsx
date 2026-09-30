@@ -21,7 +21,7 @@ export function ShopByRoom() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden">
-        <SectionBackdrop variant="dune" tone="light" className="opacity-90" />
+        <SectionBackdrop variant="mosaic" tone="light" className="opacity-90" />
 
         <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
           <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:gap-12">

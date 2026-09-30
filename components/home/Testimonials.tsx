@@ -17,12 +17,11 @@ export function Testimonials() {
 
   const t = testimonials[index];
   const go = (step: number) => setIndex((i) => (i + step + total) % total);
-  const hasPlaceholder = testimonials.some((x) => x.placeholder);
 
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden">
-        <SectionBackdrop variant="drift" tone="light" className="opacity-90" />
+        <SectionBackdrop variant="ribbon" tone="light" className="opacity-90" />
 
         <div className="relative mx-auto max-w-5xl px-5 py-16 lg:px-8 lg:py-24">
           <WordReveal

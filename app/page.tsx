@@ -10,7 +10,7 @@ import { PortfolioTeaser } from "@/components/home/PortfolioTeaser";
 export default function Home() {
   return (
     <>
-      <Hero />;
+      <Hero />
       <ShopByRoom />
       <FeaturedPieces />
       <CustomDesigns />
@@ -19,6 +19,5 @@ export default function Home() {
       <Testimonials />
       <FinalCta />
     </>
-
-  )
+  );
 } 

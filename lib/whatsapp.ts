@@ -2,8 +2,8 @@ import { siteConfig } from "./data";
 import type { EnquiryItem } from "./enquiry-store";
 
 export function whatsappUrl(text: string) {
-  return `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent(text)}`;
-}
+const number = siteConfig.whatsapp.replace(/\D/g, "");
+return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;}
 
 export function generalWhatsappUrl() {
   return whatsappUrl(

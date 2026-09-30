@@ -57,13 +57,13 @@ export type Category = { slug: string; label: string };
 
 export type HeroSlide = {
   id: string;
+  name: string;
+  category?: string;
   eyebrow: string;
   title: string;
   description: string;
   image: string;
   tag: string;
-  name?: string;
-  category?: string;
 };
 
 export const heroSlides: HeroSlide[] = [
@@ -71,29 +71,32 @@ export const heroSlides: HeroSlide[] = [
     id: "living",
     name: "Living room collection",
     category: "living-room",
-    eyebrow: "Handcrafted comfort",
-    title: "Furniture that turns everyday rooms into a statement.",
+    eyebrow: "Living room",
+    title: "Sofas and chairs built to fit your room.",
     description:
-      "Custom-made sofas, statement chairs, and refined pieces designed for relaxed living and elevated spaces.",
+      "Made to your measurements, fabric and finish. Send us the space and we'll send you a price.",
     image: "/f1.png",
     tag: "Living room",
   },
   {
     id: "dining",
-    eyebrow: "Made for gathering",
-    title: "Dining pieces that bring warmth, elegance, and character.",
+    name: "Dining collection",
+    category: "dining",
+    eyebrow: "Dining",
+    title: "A dining table sized for the room and the people.",
     description:
-      "Modern dining sets and tailored wood finishes that give your home a warm, welcoming presence.",
+      "Solid wood tables and chairs, finished in the tone you choose. Six seats or twelve.",
     image: "/f5.png",
     tag: "Dining",
-    
   },
   {
     id: "bedroom",
-    eyebrow: "Quiet luxury",
-    title: "Bedrooms designed for rest, rhythm, and personal style.",
+    name: "Bedroom collection",
+    category: "bedroom",
+    eyebrow: "Bedroom",
+    title: "Beds and wardrobes made for the room you actually have.",
     description:
-      "Thoughtful bedroom furniture, custom details, and soft textures that create a more luxurious everyday routine.",
+      "Headboards, bed frames and storage built to fit, with details you pick.",
     image: "/f9.png",
     tag: "Bedroom",
   },

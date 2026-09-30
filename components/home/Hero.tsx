@@ -10,7 +10,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "framer-motion";
-import { Check, Plus } from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
 import { heroSlides } from "../../lib/data";
@@ -18,30 +18,29 @@ import { generalWhatsappUrl } from "../../lib/whatsapp";
 import { useEnquiry } from "../../context/EnquiryContext";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
 
-const SLIDE_MS = 5500;
+const SLIDE_MS = 6000;
 const EASE = [0.22, 1, 0.36, 1] as const;
+const TOTAL = heroSlides.length;
 
-const HEADLINE = ["Furniture for", "the way you", "live beautifully."];
+const pad = (n: number) => String(n).padStart(2, "0");
 
-const POINTS = [
-  "Bespoke craftsmanship in Abuja",
-  "Tailored to your space and finish",
-  "Quotes sent after your enquiry",
-];
-
-const container: Variants = {
+// The copy block re-enters on every slide change.
+const copyGroup: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
+  exit: { transition: { staggerChildren: 0.02, staggerDirection: -1 } },
 };
 
-const rise: Variants = {
-  hidden: { y: "108%" },
-  show: { y: 0, transition: { duration: 0.9, ease: EASE } },
+const word: Variants = {
+  hidden: { y: "110%" },
+  show: { y: 0, transition: { duration: 0.8, ease: EASE } },
+  exit: { y: "-110%", transition: { duration: 0.32, ease: EASE } },
 };
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
+const fade: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+  exit: { opacity: 0, transition: { duration: 0.18 } },
 };
 
 export function Hero() {
@@ -52,11 +51,13 @@ export function Hero() {
   const slide = heroSlides[index];
   const added = has(slide.id);
 
-  // Re-armed on every slide change, so clicking a bar restarts the timer.
+  const go = (step: number) => setIndex((i) => (i + step + TOTAL) % TOTAL);
+
+  // Re-armed on every slide change, so manual navigation restarts the timer.
   useEffect(() => {
     if (reduceMotion) return;
     const timer = setTimeout(
-      () => setIndex((i) => (i + 1) % heroSlides.length),
+      () => setIndex((i) => (i + 1) % TOTAL),
       SLIDE_MS,
     );
     return () => clearTimeout(timer);
@@ -67,75 +68,116 @@ export function Hero() {
       <section className="relative overflow-hidden">
         <SectionBackdrop variant="amber" tone="light" className="opacity-90" />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:py-20">
+        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:py-20">
           {/* Copy */}
-          <motion.div variants={container} initial="hidden" animate="show">
-            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[var(--border-subtle)] bg-[rgba(255,255,255,0.55)] px-3 py-1.5 text-[11px] font-medium uppercase tracking-[0.22em] text-[var(--text-muted)] backdrop-blur-sm">
-              <span className="h-2 w-2 rounded-full bg-[var(--brand-gold)]" />
-              Custom furniture studio
-            </div>
+          <div>
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={slide.id}
+                variants={copyGroup}
+                initial="hidden"
+                animate="show"
+                exit="exit"
+              >
+                <h1 className="mt-6 min-h-[3.1em] font-display text-[clamp(2.6rem,5.6vw,4.4rem)] font-medium leading-[1.04] text-[var(--brand-wood)]">
+                  {slide.title.split(" ").map((w, i) => (
+                    <span
+                      key={`${w}-${i}`}
+                      className="-mb-[0.12em] mr-[0.22em] inline-block overflow-hidden pb-[0.12em] align-bottom"
+                    >
+                      <motion.span variants={word} className="inline-block">
+                        {w}
+                      </motion.span>
+                    </span>
+                  ))}
+                </h1>
 
-            <h1 className="mt-6 font-display text-[clamp(3rem,7vw,5.8rem)] font-medium leading-[0.92] text-[var(--brand-wood)]">
-              {HEADLINE.map((line) => (
-                <span key={line} className="block overflow-hidden py-[0.04em]">
-                  <motion.span variants={rise} className="block">
-                    {line}
-                  </motion.span>
-                </span>
-              ))}
-            </h1>
-
-            <motion.p
-              variants={fadeUp}
-              className="mt-6 max-w-xl text-base leading-relaxed text-[var(--text-muted)] sm:text-lg"
-            >
-              Thoughtful pieces for home and hospitality spaces, designed around
-              how you live, gather, and unwind.
-            </motion.p>
+                <motion.p
+                  variants={fade}
+                  className="mt-6 max-w-md text-base leading-7 text-[var(--text-muted)] lg:text-lg lg:leading-8"
+                >
+                  {slide.description}
+                </motion.p>
+              </motion.div>
+            </AnimatePresence>
 
             <motion.div
-              variants={fadeUp}
-              className="mt-8 flex flex-col gap-3 sm:flex-row"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.7, ease: EASE }}
+              className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4"
             >
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center rounded-full bg-[var(--brand-wood)] px-7 py-3.5 text-sm font-medium text-[var(--brand-ivory)] shadow-[0_10px_25px_rgba(77,45,36,0.18)] transition hover:bg-[var(--brand-wood-deep)]"
+                className="inline-flex items-center justify-center rounded-full bg-[var(--brand-wood)] px-7 py-3.5 text-sm font-medium text-[var(--brand-ivory)] shadow-[0_10px_25px_rgba(77,45,36,0.18)] transition hover:bg-[var(--brand-wood-deep)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2"
               >
-                View collection
+                See the collection
               </Link>
               <a
                 href={generalWhatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-[rgba(77,45,36,0.22)] bg-white/35 px-7 py-3.5 text-sm font-medium text-[var(--brand-wood)] transition hover:border-[var(--brand-gold)] hover:bg-[rgba(77,45,36,0.03)]"
+                className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-wood)]"
               >
-                <FaWhatsapp size={18} />
-                Ask for a quote
+                <FaWhatsapp size={17} />
+                <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
+                  Ask on WhatsApp
+                </span>
               </a>
             </motion.div>
 
-            <motion.ul
-              variants={fadeUp}
-              className="mt-10 flex flex-col gap-2.5 text-sm text-[var(--text-muted)] sm:flex-row sm:flex-wrap sm:gap-x-7"
+            {/* Slide controls */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.9, duration: 0.6 }}
+              className="mt-12 flex max-w-lg items-center gap-5 border-t border-[var(--border-subtle)] pt-6"
             >
-              {POINTS.map((point) => (
-                <li key={point} className="flex items-center gap-2">
-                  <Check
-                    size={16}
-                    className="shrink-0 text-[var(--brand-gold-deep)]"
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => go(-1)}
+                  aria-label="Previous slide"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(77,45,36,0.25)] text-[var(--brand-wood)] transition hover:bg-[rgba(77,45,36,0.06)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => go(1)}
+                  aria-label="Next slide"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(77,45,36,0.25)] text-[var(--brand-wood)] transition hover:bg-[rgba(77,45,36,0.06)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+
+              <div className="flex flex-1 items-center gap-4">
+                <span className="text-sm tabular-nums text-[var(--brand-wood)]">
+                  {pad(index + 1)}
+                </span>
+                <div className="relative h-[2px] flex-1 overflow-hidden rounded-full bg-[rgba(77,45,36,0.15)]">
+                  <motion.span
+                    key={index}
+                    className="absolute inset-0 origin-left bg-[var(--brand-wood)]"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: SLIDE_MS / 1000, ease: "linear" }}
                   />
-                  {point}
-                </li>
-              ))}
-            </motion.ul>
-          </motion.div>
+                </div>
+                <span className="text-sm tabular-nums text-[var(--text-subtle)]">
+                  {pad(TOTAL)}
+                </span>
+              </div>
+            </motion.div>
+          </div>
 
           {/* Arch frame */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.6 }}
-            className="relative mx-auto w-full max-w-md lg:max-w-none lg:pl-10"
+            className="relative mx-auto w-full max-w-md pb-10 lg:max-w-none lg:pl-10"
           >
             {/* Offset gold outline */}
             <motion.div
@@ -143,7 +185,7 @@ export function Hero() {
               initial={{ opacity: 0, x: 0, y: 0 }}
               animate={{ opacity: 1, x: 20, y: -20 }}
               transition={{ delay: 0.9, duration: 0.8, ease: EASE }}
-              className="absolute inset-0 rounded-t-[999px] rounded-b-[2rem] border border-[var(--brand-gold)] lg:left-10"
+              className="absolute bottom-10 left-0 right-0 top-0 rounded-t-[999px] rounded-b-[2rem] border border-[var(--brand-gold)] lg:left-10"
             />
 
             <div className="relative aspect-[4/5] w-full rounded-t-[999px] rounded-b-[2rem] shadow-[0_30px_80px_rgba(47,27,22,0.25)]">
@@ -166,7 +208,7 @@ export function Hero() {
                   >
                     <Image
                       src={s.image}
-                      alt={s.name ?? "Furniture display"}
+                      alt={s.name}
                       fill
                       priority={i === 0}
                       sizes="(min-width: 1024px) 40vw, 90vw"
@@ -174,7 +216,6 @@ export function Hero() {
                     />
                   </motion.div>
                 ))}
-                {/* Soft shade so the caption card always reads well */}
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/25 to-transparent" />
               </motion.div>
 
@@ -193,8 +234,7 @@ export function Hero() {
                         {slide.name}
                       </p>
                       <p className="mt-0.5 text-sm text-[var(--text-subtle)]">
-                        {slide.category ? `${slide.category}, ` : ""}price on
-                        request
+                        Price on request
                       </p>
                     </motion.div>
                   </AnimatePresence>
@@ -205,9 +245,8 @@ export function Hero() {
                     onClick={() =>
                       toggle({
                         id: slide.id,
-                        name: slide.name ?? "Untitled piece",
+                        name: slide.name,
                         image: slide.image,
-                        category: slide.category,
                       })
                     }
                     className={cn(
@@ -222,30 +261,6 @@ export function Hero() {
                   </button>
                 </div>
               </div>
-            </div>
-
-            {/* Slide progress */}
-            <div className="mt-16 flex justify-end gap-2 sm:mt-12">
-              {heroSlides.map((s, i) => (
-                <button
-                  key={s.id}
-                  type="button"
-                  onClick={() => setIndex(i)}
-                  aria-label={`Show ${s.name}`}
-                  aria-current={i === index}
-                  className="relative h-1.5 w-10 overflow-hidden rounded-full bg-[rgba(77,45,36,0.18)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]"
-                >
-                  {i === index && (
-                    <motion.span
-                      key={index}
-                      className="absolute inset-0 origin-left rounded-full bg-[var(--brand-gold-deep)]"
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: SLIDE_MS / 1000, ease: "linear" }}
-                    />
-                  )}
-                </button>
-              ))}
             </div>
           </motion.div>
         </div>

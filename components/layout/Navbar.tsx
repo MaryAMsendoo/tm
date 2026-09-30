@@ -87,14 +87,6 @@ export function Navbar() {
               priority
               className="h-11 w-11 rounded-full object-cover ring-1 ring-[var(--brand-gold)]"
             />
-            <span className="flex flex-col leading-none">
-              <span className="font-display text-2xl font-semibold text-[var(--brand-wood)]">
-                TM Artisan
-              </span>
-              <span className="mt-1 text-[11px] text-[var(--text-subtle)]">
-                Enterprise
-              </span>
-            </span>
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">

@@ -42,7 +42,7 @@ export function FeaturedPieces() {
               className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-wood)]"
             >
               <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
-                See all {products.length} pieces
+                See all pieces
               </span>
               <ArrowRight
                 size={16}

@@ -141,7 +141,6 @@ function renderBackdrop(
       <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" className="h-full w-full">
         <path d="M0 260C120 210 180 330 280 300S470 200 610 250S720 290 800 250V600H0Z" fill={palette.primary} opacity="0.22" />
         <path d="M0 340C140 290 220 420 340 390S520 300 700 350S760 380 800 360V600H0Z" fill={palette.accent} opacity="0.28" />
-        <path d="M100 160C200 120 260 210 370 180S560 120 700 180" fill="none" stroke={palette.line} strokeWidth="1.5" />
       </svg>
     );
   }

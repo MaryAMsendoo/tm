@@ -102,9 +102,28 @@ export const heroSlides: HeroSlide[] = [
   },
 ];
 
+const buildImageSet = (baseName: string, count: number) =>
+  Array.from({ length: count }, (_, index) => `/${baseName}-${String(index + 1).padStart(3, "0")}.jpeg`);
+
+export const wardrobeWarmWoodImages = buildImageSet("wardrobe-warm-wood", 23);
+export const wardrobeSagePanelImages = buildImageSet("wardrobe-sage-panel", 41);
+export const sofaGreyCurvedImages = buildImageSet("sofa-grey-curved", 13);
+export const sofaRedTuftedImages = buildImageSet("sofa-red-tufted", 6);
+export const sofaBlueWorkshopImages = buildImageSet("sofa-blue-workshop", 30);
+
+export const featuredVideos = [
+  { id: "sofa-grey-curved-video-001", title: "Curved grey sofa walk-through", src: "/sofa-grey-curved-video-001.mp4" },
+  { id: "sofa-grey-curved-video-002", title: "Grey sofa styling detail", src: "/sofa-grey-curved-video-002.mp4" },
+  { id: "sofa-grey-curved-video-003", title: "Sofa feature showcase", src: "/sofa-grey-curved-video-003.mp4" },
+  { id: "sofa-grey-curved-video-004", title: "Sofa in living space", src: "/v1.mp4" },
+  { id: "sofa-grey-curved-video-005", title: "Sofa with accent lighting", src: "/v2.mp4" },
+];
+
 export const categories: Category[] = [
   { slug: "living-room", label: "Living room" },
   { slug: "bedroom", label: "Bedroom" },
+  { slug: "wardrobes", label: "Wardrobes" },
+  { slug: "sofas", label: "Sofas" },
   { slug: "wall-pieces", label: "Wall pieces" },
   { slug: "office", label: "Office" },
   { slug: "dining", label: "Dining" },
@@ -113,6 +132,114 @@ export const categories: Category[] = [
   { slug: "glass", label: "Glass products" },
   { slug: "custom", label: "Custom designs" },
 ];
+
+export type ShowroomArchiveItem = {
+  id: string;
+  title: string;
+  category: string;
+  image: string;
+  type: "image" | "video";
+  description: string;
+};
+
+export const showroomArchiveItems: ShowroomArchiveItem[] = [
+  ...wardrobeWarmWoodImages.map((image, index) => ({
+    id: `archive-wardrobe-warm-wood-${index + 1}`,
+    title: "Warm wood wardrobe",
+    category: "wardrobes",
+    image,
+    type: "image" as const,
+    description: "Floor-to-ceiling storage with warm wood texture and built-in wardrobe detailing.",
+  })),
+  ...wardrobeSagePanelImages.map((image, index) => ({
+    id: `archive-wardrobe-sage-panel-${index + 1}`,
+    title: "Sage panel wardrobe",
+    category: "wardrobes",
+    image,
+    type: "image" as const,
+    description: "Soft panelled wardrobe design with a clean and contemporary look.",
+  })),
+  ...sofaGreyCurvedImages.map((image, index) => ({
+    id: `archive-sofa-grey-curved-${index + 1}`,
+    title: "Curved grey sofa",
+    category: "sofas",
+    image,
+    type: "image" as const,
+    description: "Modern curved sofa styling with soft grey upholstery and luxury lounge proportions.",
+  })),
+  ...sofaRedTuftedImages.map((image, index) => ({
+    id: `archive-sofa-red-tufted-${index + 1}`,
+    title: "Red tufted sofa",
+    category: "sofas",
+    image,
+    type: "image" as const,
+    description: "Statement tufted upholstery in a rich red accent for dramatic living spaces.",
+  })),
+  ...sofaBlueWorkshopImages.map((image, index) => ({
+    id: `archive-sofa-blue-workshop-${index + 1}`,
+    title: "Blue workshop sofa",
+    category: "sofas",
+    image,
+    type: "image" as const,
+    description: "Large-format lounge seating inspired by warm workshop textures and modular comfort.",
+  })),
+  ...["/f1.png", "/f2.png", "/f3.png", "/f4.png", "/f5.png", "/f6.png", "/f7.png", "/f8.png", "/f9.png", "/f10.png", "/f11.png", "/f12.png", "/f13.png", "/f14.png", "/f15.png", "/f16.png", "/f17.png", "/f18.png", "/f19.png", "/f20.png", "/f21.png", "/f22.png"].map((image, index) => {
+    const mapping = [
+      ["/f1.png", "kitchen", "Breakfast bar kitchen"],
+      ["/f2.png", "kitchen", "Grey gloss kitchen"],
+      ["/f3.png", "kitchen", "Matte U-shape kitchen"],
+      ["/f4.png", "bedroom", "Mirror shelf dressing wall"],
+      ["/f5.png", "bedroom", "Floor-to-ceiling wardrobe"],
+      ["/f6.png", "bedroom", "Wardrobe with dressing table"],
+      ["/f7.png", "bedroom", "Grey wardrobe and vanity"],
+      ["/f8.png", "bedroom", "Walnut vanity wall"],
+      ["/f9.png", "bedroom", "Gold handle wardrobe"],
+      ["/f10.png", "bedroom", "Bedroom wardrobe and vanity"],
+      ["/f11.png", "living-room", "Oak storage wall"],
+      ["/f12.png", "wall-pieces", "Sculpted shelf with mirror"],
+      ["/f13.png", "wall-pieces", "Floating console and mirror"],
+      ["/f14.png", "wall-pieces", "Circular wall shelf set"],
+      ["/f15.png", "kitchen", "Marble island kitchen"],
+      ["/f16.png", "living-room", "Open-plan living room"],
+      ["/f17.png", "living-room", "TV wall with marble panel"],
+      ["/f18.png", "living-room", "TV wall with arch alcove"],
+      ["/f19.png", "wall-pieces", "Lit organic mirror"],
+      ["/f20.png", "living-room", "Slatted wall panel"],
+      ["/f21.png", "kitchen", "Compact kitchen counter"],
+      ["/f22.png", "living-room", "Sectional sofa and media wall"],
+    ] as const;
+    const match = mapping.find(([src]) => src === image) ?? ["/f1.png", "living-room", "Showroom piece"];
+    return {
+      id: `archive-${match[1]}-${index + 1}`,
+      title: match[2],
+      category: match[1],
+      image,
+      type: "image" as const,
+      description: "Crafted to order for a personalised room, finish and layout.",
+    };
+  }),
+  ...[
+    "/sofa-grey-curved-video-001.mp4",
+    "/sofa-grey-curved-video-002.mp4",
+    "/sofa-grey-curved-video-003.mp4",
+    "/sofa-grey-curved-video-004.mp4",
+    "/sofa-grey-curved-video-005.mp4",
+    "/sofa-grey-curved-video-006.mp4",
+    "/sofa-grey-curved-video-007.mp4",
+    "/sofa-grey-curved-video-008.mp4",
+    "/sofa-grey-curved-video-009.mp4",
+    "/sofa-grey-curved-video-010.mp4",
+  ].map((video, index) => ({
+    id: `archive-video-${index + 1}`,
+    title: "Curved sofa walkthrough",
+    category: "sofas",
+    image: video,
+    type: "video" as const,
+    description: "A motion walkthrough showing the proportions and styling in real use.",
+  })),
+];
+
+export const publicGalleryImages = showroomArchiveItems.map((item) => item.image);
 
 export type ShowcaseSlide = {
   id: string;
@@ -141,6 +268,15 @@ export type Product = {
 };
 
 export const products: Product[] = [
+  // Wardrobes
+  { id: "wardrobe-warm-wood", name: "Warm wood wardrobe wall", category: "wardrobes", images: wardrobeWarmWoodImages, description: "A warm wood wardrobe collection with floor-to-ceiling storage and integrated drawers, mirrors and accent lighting.", customisable: true, featured: true },
+  { id: "wardrobe-sage-panel", name: "Sage panel wardrobe collection", category: "wardrobes", images: wardrobeSagePanelImages, description: "Soft sage panelled wardrobes with a clean, contemporary front and built-in dressing details.", customisable: true, featured: true },
+
+  // Sofas
+  { id: "sofa-grey-curved", name: "Curved grey sofa collection", category: "sofas", images: sofaGreyCurvedImages, description: "A modern curved sofa range in soft grey, designed to anchor a lounge or media wall without overpowering the room.", customisable: true, featured: true },
+  { id: "sofa-red-tufted", name: "Red tufted sofa collection", category: "sofas", images: sofaRedTuftedImages, description: "Bold tufted sofas with rich red upholstery and sculpted seating for statement living spaces.", customisable: true, featured: true },
+  { id: "sofa-blue-workshop", name: "Blue workshop sofa collection", category: "sofas", images: sofaBlueWorkshopImages, description: "Blue upholstered lounge pieces with generous proportions and a warm workshop-inspired finish.", customisable: true, featured: true },
+
   // Kitchen
   { id: "kitchen-breakfast-bar", name: "Kitchen with breakfast bar", category: "kitchen", images: ["/f1.png"], description: "Fitted cabinets, under-cabinet lighting and a ribbed-wood breakfast bar.", customisable: true, featured: true },
   { id: "kitchen-grey-gloss", name: "Grey gloss kitchen", category: "kitchen", images: ["/f2.png"], description: "Tall and wall cabinets in gloss grey with a marble splashback.", customisable: true },
@@ -193,6 +329,11 @@ export type PortfolioProject = {
 
 // Placeholders: replace with real finished jobs and their photos.
 export const portfolioProjects: PortfolioProject[] = [
+  { id: "p-wardrobe-warm-wood", title: "Warm wood wardrobe wall", category: "wardrobes", image: wardrobeWarmWoodImages[0] },
+  { id: "p-wardrobe-sage-panel", title: "Sage panel wardrobe layout", category: "wardrobes", image: wardrobeSagePanelImages[0] },
+  { id: "p-sofa-grey-curved", title: "Curved grey sofa styling", category: "sofas", image: sofaGreyCurvedImages[0] },
+  { id: "p-sofa-red-tufted", title: "Red tufted lounge scene", category: "sofas", image: sofaRedTuftedImages[0] },
+  { id: "p-sofa-blue-workshop", title: "Blue workshop sofa set", category: "sofas", image: sofaBlueWorkshopImages[0] },
   { id: "p-kitchen-island", title: "Open-plan kitchen with marble island", category: "kitchen", image: "/f15.png" },
   { id: "p-bedroom-wardrobe", title: "Wardrobe wall with dressing table", category: "bedroom", image: "/f6.png" },
   { id: "p-tv-wall", title: "Living room TV wall", category: "living-room", image: "/f17.png" },

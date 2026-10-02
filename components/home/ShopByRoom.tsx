@@ -70,9 +70,7 @@ export function ShopByRoom() {
                       <h3 className="font-display text-2xl font-medium leading-tight text-[var(--brand-wood)]">
                         {t.label}
                       </h3>
-                      <p className="mt-0.5 text-sm text-[var(--text-subtle)]">
-                        {t.count} {t.count === 1 ? "piece" : "pieces"}
-                      </p>
+                     
                     </div>
                     <ArrowUpRight
                       size={20}

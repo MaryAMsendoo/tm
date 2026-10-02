@@ -13,7 +13,7 @@ import {
 import { Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import { heroSlides } from "../../lib/data";
+import { featuredVideos, heroSlides } from "../../lib/data";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
 import { useEnquiry } from "../../context/EnquiryContext";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
@@ -65,10 +65,37 @@ export function Hero() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative overflow-hidden">
-        <SectionBackdrop variant="amber" tone="light" className="opacity-90" />
+      <section className="relative isolate overflow-hidden bg-[var(--brand-charcoal)]">
+        <div aria-hidden="true" className="absolute inset-0">
+          {reduceMotion ? (
+            <Image
+              src={heroSlides[0].image}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-40"
+            />
+          ) : (
+            <video
+              src={featuredVideos[3].src}
+              poster={heroSlides[0].image}
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="h-full w-full object-cover opacity-40"
+            />
+          )}
+        </div>
+        <SectionBackdrop variant="amber" tone="dark" className="z-0 opacity-20" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(16,15,12,0.78)_0%,rgba(16,15,12,0.56)_48%,rgba(16,15,12,0.38)_100%)]"
+        />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:py-20">
+        <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-14 px-5 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:py-20">
           {/* Copy */}
           <div>
             <AnimatePresence mode="wait" initial={false}>
@@ -79,7 +106,7 @@ export function Hero() {
                 animate="show"
                 exit="exit"
               >
-                <h1 className="mt-6 min-h-[3.1em] font-display text-[clamp(2.6rem,5.6vw,4.4rem)] font-medium leading-[1.04] text-[var(--brand-wood)]">
+                <h1 className="mt-6 min-h-[3.1em] font-display text-[clamp(2.6rem,5.6vw,4.4rem)] font-medium leading-[1.04] text-[var(--brand-ivory)]">
                   {slide.title.split(" ").map((w, i) => (
                     <span
                       key={`${w}-${i}`}
@@ -94,7 +121,7 @@ export function Hero() {
 
                 <motion.p
                   variants={fade}
-                  className="mt-6 max-w-md text-base leading-7 text-[var(--text-muted)] lg:text-lg lg:leading-8"
+                  className="mt-6 max-w-md text-base leading-7 text-[rgba(247,241,230,0.84)] lg:text-lg lg:leading-8"
                 >
                   {slide.description}
                 </motion.p>
@@ -109,7 +136,7 @@ export function Hero() {
             >
               <Link
                 href="/shop"
-                className="inline-flex items-center justify-center rounded-full bg-[var(--brand-wood)] px-7 py-3.5 text-sm font-medium text-[var(--brand-ivory)] shadow-[0_10px_25px_rgba(77,45,36,0.18)] transition hover:bg-[var(--brand-wood-deep)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2"
+                className="inline-flex items-center justify-center rounded-full bg-[var(--brand-ivory)] px-7 py-3.5 text-sm font-medium text-[var(--brand-wood-deep)] shadow-[0_10px_25px_rgba(0,0,0,0.2)] transition hover:bg-[var(--brand-cream)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2"
               >
                 See the collection
               </Link>
@@ -117,7 +144,7 @@ export function Hero() {
                 href={generalWhatsappUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-wood)]"
+                className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-ivory)]"
               >
                 <FaWhatsapp size={17} />
                 <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
@@ -131,14 +158,14 @@ export function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              className="mt-12 flex max-w-lg items-center gap-5 border-t border-[var(--border-subtle)] pt-6"
+              className="mt-12 flex max-w-lg items-center gap-5 pt-6"
             >
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => go(-1)}
                   aria-label="Previous slide"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(77,45,36,0.25)] text-[var(--brand-wood)] transition hover:bg-[rgba(77,45,36,0.06)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-[var(--brand-ivory)] transition hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]"
                 >
                   <ChevronLeft size={18} />
                 </button>
@@ -146,29 +173,12 @@ export function Hero() {
                   type="button"
                   onClick={() => go(1)}
                   aria-label="Next slide"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[rgba(77,45,36,0.25)] text-[var(--brand-wood)] transition hover:bg-[rgba(77,45,36,0.06)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-[var(--brand-ivory)] transition hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)]"
                 >
                   <ChevronRight size={18} />
                 </button>
               </div>
 
-              <div className="flex flex-1 items-center gap-4">
-                <span className="text-sm tabular-nums text-[var(--brand-wood)]">
-                  {pad(index + 1)}
-                </span>
-                <div className="relative h-[2px] flex-1 overflow-hidden rounded-full bg-[rgba(77,45,36,0.15)]">
-                  <motion.span
-                    key={index}
-                    className="absolute inset-0 origin-left bg-[var(--brand-wood)]"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: SLIDE_MS / 1000, ease: "linear" }}
-                  />
-                </div>
-                <span className="text-sm tabular-nums text-[var(--text-subtle)]">
-                  {pad(TOTAL)}
-                </span>
-              </div>
             </motion.div>
           </div>
 

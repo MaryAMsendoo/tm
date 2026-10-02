@@ -8,7 +8,13 @@ import { categories, type Product } from "../../lib/data";
 import { productWhatsappUrl } from "../../lib/whatsapp";
 import { useEnquiry } from "../../context/EnquiryContext";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({
+  product,
+  onQuickView,
+}: {
+  product: Product;
+  onQuickView?: (product: Product) => void;
+}) {
   const { has, toggle } = useEnquiry();
   const added = has(product.id);
   const categoryLabel = categories.find(
@@ -25,6 +31,19 @@ export function ProductCard({ product }: { product: Product }) {
           sizes="(min-width: 1024px) 30vw, 50vw"
           className="object-cover transition duration-700 group-hover:scale-[1.04]"
         />
+
+        {onQuickView && (
+          <button
+            type="button"
+            onClick={() => onQuickView(product)}
+            aria-label={`Quick view: ${product.name}`}
+            className="absolute inset-0 flex items-end justify-center pb-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--brand-gold)]"
+          >
+            <span className="rounded-full bg-[var(--surface-toast)] px-3.5 py-1.5 text-xs font-medium text-[var(--brand-wood)] backdrop-blur-md transition sm:opacity-0 sm:group-hover:opacity-100 sm:group-focus-within:opacity-100">
+              Quick view
+            </span>
+          </button>
+        )}
       </div>
 
       <div className="mt-4">

@@ -197,6 +197,14 @@ export const portfolioProjects: PortfolioProject[] = [
   { id: "p-bedroom-wardrobe", title: "Wardrobe wall with dressing table", category: "bedroom", image: "/f6.png" },
   { id: "p-tv-wall", title: "Living room TV wall", category: "living-room", image: "/f17.png" },
   { id: "p-wall-mirror", title: "Sculpted shelves with round mirror", category: "wall-pieces", image: "/f12.png" },
+  { id: "p-kitchen-grey", title: "Gloss grey kitchen", category: "kitchen", image: "/f2.png" },
+  { id: "p-kitchen-counter", title: "Compact kitchen with counter", category: "kitchen", image: "/f21.png" },
+  { id: "p-bedroom-walnut", title: "Walnut wardrobe and vanity", category: "bedroom", image: "/f8.png" },
+  { id: "p-bedroom-gold", title: "Wardrobe with brass handles", category: "bedroom", image: "/f9.png" },
+  { id: "p-tv-arch", title: "TV wall with arch alcove", category: "living-room", image: "/f18.png" },
+  { id: "p-living-sectional", title: "Living room with panelled TV wall", category: "living-room", image: "/f22.png" },
+  { id: "p-wall-console", title: "Floating console with lit mirror", category: "wall-pieces", image: "/f13.png" },
+  { id: "p-wall-organic", title: "Lit organic mirror", category: "wall-pieces", image: "/f19.png" },
 ];
 
 export type Testimonial = {
@@ -212,4 +220,41 @@ export const testimonials: Testimonial[] = [
   { id: "t1", quote: "Replace this with a real customer's own words about their furniture.", name: "Customer name", detail: "What TM Artisan made for them", placeholder: true },
   { id: "t2", quote: "A second real quote goes here. One or two sentences is enough.", name: "Customer name", detail: "What TM Artisan made for them", placeholder: true },
   { id: "t3", quote: "A third real quote goes here.", name: "Customer name", detail: "What TM Artisan made for them", placeholder: true },
+];
+
+// From the client brief. The farm half is left out until farm products are added.
+export const mission =
+  "To deliver premium artisan furniture and home solutions with excellence and integrity.";
+export const vision =
+  "To become a leading brand in Nigeria known for quality, innovation and trust.";
+
+export const values = [
+  "Integrity",
+  "Excellence",
+  "Innovation",
+  "Quality",
+  "Customer satisfaction",
+  "Sustainability",
+  "Reliability",
+];
+
+export const customOptions = [
+  { title: "Board type", text: "The board the cabinet body and doors are made from." },
+  { title: "Colour", text: "Doors, panels and trim in the shade you pick." },
+  { title: "Material", text: "Wood, laminate, gloss or glass, depending on the piece." },
+  { title: "Accessories", text: "Handles, lighting, mirrors, drawers and shelves." },
+  { title: "Dimensions", text: "Cut to the wall, alcove or room you actually have." },
+  { title: "Design preference", text: "Start from a piece in the shop, your own photo or a sketch." },
+];
+
+export const otherServices = [
+  "Interior design",
+  "Interior finishing",
+  "Upholstery",
+  "Carpentry",
+  "Glass works and installation",
+  "Plumbing",
+  "Building materials supply",
+  "Renovation and home improvement",
+  "Consultancy",
 ];

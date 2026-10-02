@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import { enquiryStore, type EnquiryItem } from "../lib/enquiry-store";
+import { enquiryThumbnail } from "../lib/data";
 
 type EnquiryContextValue = {
   items: EnquiryItem[];
@@ -44,7 +45,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
   const toggle = useCallback(
     (item: EnquiryItem) => {
       if (items.some((i) => i.id === item.id)) enquiryStore.remove(item.id);
-      else enquiryStore.add(item);
+      else enquiryStore.add({ ...item, image: enquiryThumbnail(item.image) });
     },
     [items],
   );

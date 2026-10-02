@@ -17,11 +17,11 @@ export default function AboutPage() {
       <PageHeader
         title="A furniture workshop in Gosa, Abuja."
         intro="TM Artisan Enterprise makes custom and ready-made furniture, and does the finishing work that goes around it."
-        variant="dune"
+        variant="tide"
       />
 
       <section className="relative overflow-hidden">
-        <SectionBackdrop variant="canvas" tone="light" className="opacity-90" />
+        <SectionBackdrop variant="ribbon" tone="light" className="opacity-90" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 py-14 lg:grid-cols-[1fr_1fr] lg:gap-20 lg:px-8 lg:py-20">
           <Reveal>
             {/* Placeholder image: replace with a photo of the workshop or the owner. */}
@@ -71,7 +71,6 @@ export default function AboutPage() {
       </section>
 
       <section className="relative overflow-hidden">
-        <SectionBackdrop variant="loom" tone="light" className="opacity-90" />
         <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-6 lg:px-8 lg:pb-28">
           <Reveal>
             <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.8rem)] font-medium text-[var(--brand-wood)]">

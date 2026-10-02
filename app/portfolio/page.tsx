@@ -16,8 +16,8 @@ export default function PortfolioPage() {
         intro="Kitchens, wardrobes, TV walls and wall pieces, built to the size of each room."
         variant="mosaic"
       />
-      <section className="relative overflow-hidden">
-        <SectionBackdrop variant="drift" tone="light" className="opacity-90" />
+      <section className="relative overflow-clip">
+        <SectionBackdrop variant="dune" tone="light" className="opacity-90" />
         <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-4 lg:px-8 lg:pb-28">
           <PortfolioGallery />
         </div>

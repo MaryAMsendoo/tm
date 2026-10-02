@@ -112,11 +112,11 @@ export const sofaRedTuftedImages = buildImageSet("sofa-red-tufted", 6);
 export const sofaBlueWorkshopImages = buildImageSet("sofa-blue-workshop", 30);
 
 export const featuredVideos = [
-  { id: "sofa-grey-curved-video-001", title: "Curved grey sofa walk-through", src: "/sofa-grey-curved-video-001.mp4" },
-  { id: "sofa-grey-curved-video-002", title: "Grey sofa styling detail", src: "/sofa-grey-curved-video-002.mp4" },
-  { id: "sofa-grey-curved-video-003", title: "Sofa feature showcase", src: "/sofa-grey-curved-video-003.mp4" },
-  { id: "sofa-grey-curved-video-004", title: "Sofa in living space", src: "/v1.mp4" },
-  { id: "sofa-grey-curved-video-005", title: "Sofa with accent lighting", src: "/v2.mp4" },
+  { id: "sofa-grey-curved-video-001", title: "Curved grey sofa walk-through", src: "/sofa-grey-curved-video-001.mp4", poster: sofaGreyCurvedImages[0] },
+  { id: "sofa-grey-curved-video-002", title: "Grey sofa styling detail", src: "/sofa-grey-curved-video-002.mp4", poster: sofaGreyCurvedImages[1] },
+  { id: "sofa-grey-curved-video-003", title: "Sofa feature showcase", src: "/sofa-grey-curved-video-003.mp4", poster: sofaGreyCurvedImages[2] },
+  { id: "sofa-grey-curved-video-004", title: "Sofa in living space", src: "/v1.mp4", poster: "/f22.png" },
+  { id: "sofa-grey-curved-video-005", title: "Sofa with accent lighting", src: "/v2.mp4", poster: sofaGreyCurvedImages[3] },
 ];
 
 export const categories: Category[] = [
@@ -138,6 +138,7 @@ export type ShowroomArchiveItem = {
   title: string;
   category: string;
   image: string;
+  poster?: string;
   type: "image" | "video";
   description: string;
 };
@@ -234,10 +235,21 @@ export const showroomArchiveItems: ShowroomArchiveItem[] = [
     title: "Curved sofa walkthrough",
     category: "sofas",
     image: video,
+    poster: sofaGreyCurvedImages[index % sofaGreyCurvedImages.length],
     type: "video" as const,
     description: "A motion walkthrough showing the proportions and styling in real use.",
   })),
 ];
+
+export const enquiryThumbnail = (source: string) => {
+  if (!/\.(mp4|webm|mov|m4v)(?:$|\?)/i.test(source)) return source;
+
+  return (
+    featuredVideos.find((video) => video.src === source)?.poster ??
+    showroomArchiveItems.find((item) => item.type === "video" && item.image === source)?.poster ??
+    sofaGreyCurvedImages[0]
+  );
+};
 
 export const publicGalleryImages = showroomArchiveItems.map((item) => item.image);
 

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
-import { Search, X } from "lucide-react";
+import { Check, Plus, Search, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
 import {
@@ -44,6 +44,7 @@ export function ShopView() {
   const [quick, setQuick] = useState<Product | null>(null);
   const [showroomView, setShowroomView] = useState<ShowroomArchiveItem | null>(null);
   const { toggle, has } = useEnquiry();
+  const showroomViewAdded = showroomView ? has(showroomView.id) : false;
 
   useEffect(() => {
     if (!showroomView) return;
@@ -414,6 +415,29 @@ export function ShopView() {
                 <p className="mt-5 text-base leading-7 text-[var(--text-muted)]">
                   {showroomView.description}
                 </p>
+                <button
+                  type="button"
+                  aria-pressed={showroomViewAdded}
+                  onClick={() =>
+                    toggle({
+                      id: showroomView.id,
+                      name: showroomView.title,
+                      image: showroomView.image,
+                      category:
+                        categories.find((category) => category.slug === showroomView.category)?.label ??
+                        showroomView.category,
+                    })
+                  }
+                  className={cn(
+                    "mt-8 inline-flex min-h-11 self-start items-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2",
+                    showroomViewAdded
+                      ? "bg-[var(--brand-gold)] text-[var(--brand-wood-deep)]"
+                      : "bg-[var(--brand-wood)] text-[var(--brand-ivory)] hover:bg-[var(--brand-wood-deep)]",
+                  )}
+                >
+                  {showroomViewAdded ? <Check size={16} /> : <Plus size={16} />}
+                  {showroomViewAdded ? "In enquiry" : "Add to enquiry"}
+                </button>
               </div>
             </motion.div>
           </motion.div>

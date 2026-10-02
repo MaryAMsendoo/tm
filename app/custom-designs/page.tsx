@@ -17,11 +17,10 @@ export default function CustomDesignsPage() {
       <PageHeader
         title="Bring the idea. We will build it."
         intro="A photo you saved, a sketch on paper, or only the measurements of the wall. Start with whatever you have."
-        variant="stone"
+        variant="canvas"
       />
 
       <section className="relative overflow-hidden">
-        <SectionBackdrop variant="line" tone="light" className="opacity-90" />
         <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <Reveal>
             <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.8rem)] font-medium leading-tight text-[var(--brand-wood)]">

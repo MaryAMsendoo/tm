@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Mail, Trash2, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { useEnquiry } from "../../context/EnquiryContext";
+import { enquiryThumbnail } from "../../lib/data";
 import { enquiryEmailUrl, enquiryWhatsappUrl } from "../../lib/whatsapp";
 
 export function EnquiryDrawer() {
@@ -75,7 +76,7 @@ export function EnquiryDrawer() {
             {count === 0 ? (
               <div className="flex h-full flex-col items-center justify-center text-center">
                 <p className="max-w-xs font-display text-2xl text-[var(--brand-wood)]">
-                  Add the pieces you like and we'll price them together.
+                  Add the pieces you like and we&apos;ll price them together.
                 </p>
                 <Link
                   href="/shop"
@@ -100,7 +101,7 @@ export function EnquiryDrawer() {
                     >
                       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-[var(--brand-cream)]">
                         <Image
-                          src={item.image}
+                          src={enquiryThumbnail(item.image)}
                           alt={item.name}
                           fill
                           sizes="80px"
@@ -139,7 +140,7 @@ export function EnquiryDrawer() {
             <div className="border-t border-[var(--border-subtle)] bg-[var(--surface-faint)] px-6 py-5">
               <p className="mb-4 text-sm text-[var(--text-muted)]">
                 Every piece is quoted to your size and finish. Send the list
-                and we'll reply with prices.
+                and we&apos;ll reply with prices.
               </p>
               <div className="flex flex-col gap-2.5">
                 <a

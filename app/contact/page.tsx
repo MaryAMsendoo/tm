@@ -24,7 +24,7 @@ export default function ContactPage() {
       <PageHeader
         title="Talk to us, or come and see the work."
         intro="WhatsApp is the quickest way to reach us. You can also call, email or visit the workshop."
-        variant="orbit"
+        variant="tide"
       />
 
       <section className="relative overflow-hidden">

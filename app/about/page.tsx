@@ -44,11 +44,24 @@ export default function AboutPage() {
               Every piece is built for a particular room, so we work from your
               measurements, finish and budget instead of a fixed catalogue.
             </p>
-            <p className="mt-6 max-w-lg rounded-lg border border-dashed border-[var(--brand-gold)] px-4 py-3 text-sm leading-6 text-[var(--text-muted)]">
-              Founder&apos;s story goes here: who started TM Artisan, how, and
-              what they care about when they build. Ask the owner for a short
-              paragraph in their own words, then replace this note.
-            </p>
+            <div className="mt-6 max-w-lg">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-[var(--brand-gold-deep)]">
+                Founder&apos;s story
+              </p>
+              <p className="mt-3 text-base leading-7 text-[var(--text-muted)] lg:text-lg lg:leading-8">
+                TM Artisan began with Terver Ambrose Msuega, whose years in furniture,
+                customer care and on-site project work gave him a practical understanding
+                of what clients really need: quality craftsmanship, dependable service and
+                spaces that work beautifully in everyday life.
+              </p>
+              <p className="mt-4 text-base leading-7 text-[var(--text-muted)] lg:text-lg lg:leading-8">
+                From working with Vento Furniture and Metro X Furniture to managing site
+                operations and installations, he saw that good furniture is more than a
+                product—it must be built with care, accountability and a clear respect for
+                the client&apos;s vision. That experience shaped TM Artisan into a brand built
+                on skill, professionalism and lasting value.
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -50,11 +51,22 @@ export function Testimonials() {
                     <blockquote className="font-display text-[clamp(1.5rem,3vw,2.3rem)] font-medium leading-[1.25] text-[var(--brand-wood)]">
                       {t.quote}
                     </blockquote>
-                    <figcaption className="mt-6 text-base text-[var(--text-muted)]">
-                      <span className="font-medium text-[var(--brand-wood)]">
-                        {t.name}
-                      </span>
-                      {t.detail ? <span>, {t.detail}</span> : null}
+                    <figcaption className="mt-6 flex items-center gap-4 text-base text-[var(--text-muted)]">
+                      <div className="h-12 w-12 overflow-hidden rounded-full ring-2 ring-[var(--brand-gold)]">
+                        <Image
+                          src={t.avatar ?? "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"}
+                          alt={t.name}
+                          width={48}
+                          height={48}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <span className="block font-medium text-[var(--brand-wood)]">
+                          {t.name}
+                        </span>
+                        {t.detail ? <span className="block text-sm">{t.detail}</span> : null}
+                      </div>
                     </figcaption>
                   </motion.figure>
                 </AnimatePresence>

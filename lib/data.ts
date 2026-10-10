@@ -365,14 +365,35 @@ export type Testimonial = {
   quote: string;
   name: string;
   detail?: string; // e.g. what was made, or the area
+  avatar?: string;
   placeholder?: boolean; // remove this flag once the quote is real
 };
 
-// Replace with real customer words (with their permission) and delete `placeholder`.
 export const testimonials: Testimonial[] = [
-  { id: "t1", quote: "Replace this with a real customer's own words about their furniture.", name: "Customer name", detail: "What TM Artisan made for them", placeholder: true },
-  { id: "t2", quote: "A second real quote goes here. One or two sentences is enough.", name: "Customer name", detail: "What TM Artisan made for them", placeholder: true },
-  { id: "t3", quote: "A third real quote goes here.", name: "Customer name", detail: "What TM Artisan made for them", placeholder: true },
+  {
+    id: "t1",
+    quote:
+      "TM Artisan did an excellent job on our built-in wardrobe and dressing unit in Gwarinpa. The finishing was clean, the craftsmanship was solid, and the entire process felt professional from start to finish. We are very happy with the result.",
+    name: "Aisha Yusuf",
+    detail: "Built-in wardrobe and dressing unit, Gwarinpa",
+    avatar: "/avatars/aisha.svg",
+  },
+  {
+    id: "t2",
+    quote:
+      "We wanted a smart kitchen setup for our new apartment, and TM Artisan delivered beyond expectation. The kitchen cabinets, countertop and finishing gave the whole place a premium look. The team was responsive and very careful with the work.",
+    name: "Chinedu Okafor",
+    detail: "L-shaped kitchen cabinets and breakfast counter, Abuja",
+    avatar: "/avatars/chinedu.svg",
+  },
+  {
+    id: "t3",
+    quote:
+      "I hired TM Artisan for a custom office storage wall and console unit, and the quality speaks for itself. It was built to fit my space perfectly, with neat finishing and very good attention to detail. I would definitely recommend them.",
+    name: "Mariam Bello",
+    detail: "Custom office storage wall and console, Maitama",
+    avatar: "/avatars/mariam.svg",
+  },
 ];
 
 // From the client brief. The farm half is left out until farm products are added.

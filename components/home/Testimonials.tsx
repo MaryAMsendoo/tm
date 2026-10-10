@@ -93,10 +93,6 @@ export function Testimonials() {
                     </button>
                   </div>
                   <p className="text-sm tabular-nums text-[var(--text-subtle)]">
-                    <span className="text-[var(--brand-wood)]">
-                      {pad(index + 1)}
-                    </span>{" "}
-                    / {pad(total)}
                   </p>
                 </div>
               )}

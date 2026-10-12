@@ -72,7 +72,7 @@ export function QuickView({
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 24, opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
-            className="relative grid max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-t-3xl bg-[var(--brand-ivory)] sm:rounded-3xl md:grid-cols-2"
+            className="relative max-h-[92dvh] w-full max-w-4xl overflow-hidden rounded-t-3xl bg-[var(--brand-ivory)] sm:rounded-3xl"
           >
             <button
               ref={closeRef}
@@ -84,113 +84,115 @@ export function QuickView({
               <X size={18} />
             </button>
 
-            {/* Images */}
-            <div className="bg-[var(--brand-cream)]">
-              <div className="relative aspect-[4/5] w-full md:h-full md:min-h-[32rem] md:aspect-auto">
-                <Image
-                  key={product.images[active]}
-                  src={product.images[active]}
-                  alt={product.name}
-                  fill
-                  sizes="(min-width: 768px) 440px, 100vw"
-                  className="object-cover"
-                />
-              </div>
-              {product.images.length > 1 && (
-                <div className="flex gap-2 p-3">
-                  {product.images.map((src, i) => (
-                    <button
-                      key={src}
-                      type="button"
-                      onClick={() => setActive(i)}
-                      aria-label={`Show image ${i + 1}`}
-                      aria-current={i === active}
-                      className={cn(
-                        "relative h-16 w-14 overflow-hidden rounded-lg border-2 transition",
-                        i === active
-                          ? "border-[var(--brand-gold)]"
-                          : "border-transparent opacity-70 hover:opacity-100",
-                      )}
-                    >
-                      <Image src={src} alt="" fill sizes="56px" className="object-cover" />
-                    </button>
-                  ))}
+            <div className="grid max-h-[92dvh] min-w-0 overflow-y-auto overscroll-contain md:grid-cols-2">
+              {/* Images */}
+              <div className="min-w-0 overflow-hidden bg-[var(--brand-cream)]">
+                <div className="relative aspect-[16/10] max-h-[32dvh] w-full md:h-full md:min-h-[32rem] md:aspect-auto md:max-h-none">
+                  <Image
+                    key={product.images[active]}
+                    src={product.images[active]}
+                    alt={product.name}
+                    fill
+                    sizes="(min-width: 768px) 440px, 100vw"
+                    className="object-cover"
+                  />
                 </div>
-              )}
-            </div>
+                {product.images.length > 1 && (
+                  <div className="flex gap-2 overflow-x-auto p-3">
+                    {product.images.map((src, i) => (
+                      <button
+                        key={src}
+                        type="button"
+                        onClick={() => setActive(i)}
+                        aria-label={`Show image ${i + 1}`}
+                        aria-current={i === active}
+                        className={cn(
+                          "relative h-16 w-14 shrink-0 overflow-hidden rounded-lg border-2 transition",
+                          i === active
+                            ? "border-[var(--brand-gold)]"
+                            : "border-transparent opacity-70 hover:opacity-100",
+                        )}
+                      >
+                        <Image src={src} alt="" fill sizes="56px" className="object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-            {/* Details */}
-            <div className="flex flex-col p-6 sm:p-8">
-              {categoryLabel && (
-                <p className="text-sm text-[var(--text-subtle)]">{categoryLabel}</p>
-              )}
-              <h2 className="mt-1 pr-10 font-display text-3xl font-medium leading-tight text-[var(--brand-wood)] sm:text-4xl">
-                {product.name}
-              </h2>
-              <p className="mt-1 text-sm text-[var(--text-subtle)]">Price on request</p>
+              {/* Details */}
+              <div className="flex min-w-0 flex-col p-5 sm:p-8">
+                {categoryLabel && (
+                  <p className="text-sm text-[var(--text-subtle)]">{categoryLabel}</p>
+                )}
+                <h2 className="mt-1 break-words pr-10 font-display text-3xl font-medium leading-tight text-[var(--brand-wood)] sm:text-4xl">
+                  {product.name}
+                </h2>
+                <p className="mt-1 text-sm text-[var(--text-subtle)]">Price on request</p>
 
-              <p className="mt-5 text-base leading-7 text-[var(--text-muted)]">
-                {product.description}
-              </p>
-
-              {(product.dimensions || product.materials) && (
-                <dl className="mt-5 space-y-2 border-t border-[var(--border-subtle)] pt-5 text-sm">
-                  {product.dimensions && (
-                    <div className="flex gap-3">
-                      <dt className="w-24 shrink-0 text-[var(--text-subtle)]">Size</dt>
-                      <dd className="text-[var(--brand-wood)]">{product.dimensions}</dd>
-                    </div>
-                  )}
-                  {product.materials && (
-                    <div className="flex gap-3">
-                      <dt className="w-24 shrink-0 text-[var(--text-subtle)]">Materials</dt>
-                      <dd className="text-[var(--brand-wood)]">{product.materials}</dd>
-                    </div>
-                  )}
-                </dl>
-              )}
-
-              {product.customisable && (
-                <p className="mt-5 text-sm leading-6 text-[var(--text-muted)]">
-                  Can be made to your size, colour and finish. Tell us what you
-                  want when you send your enquiry.
+                <p className="mt-5 text-base leading-7 text-[var(--text-muted)]">
+                  {product.description}
                 </p>
-              )}
 
-              <div className="mt-auto flex flex-wrap items-center gap-x-6 gap-y-3 pt-8">
-                <button
-                  type="button"
-                  aria-pressed={added}
-                  onClick={() =>
-                    toggle({
-                      id: product.id,
-                      name: product.name,
-                      image: product.images[0],
-                      category: categoryLabel,
-                    })
-                  }
-                  className={cn(
-                    "inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2",
-                    added
-                      ? "bg-[var(--brand-gold)] text-[var(--brand-wood-deep)]"
-                      : "bg-[var(--brand-wood)] text-[var(--brand-ivory)] hover:bg-[var(--brand-wood-deep)]",
-                  )}
-                >
-                  {added ? <Check size={16} /> : <Plus size={16} />}
-                  {added ? "Added to enquiry" : "Add to enquiry"}
-                </button>
+                {(product.dimensions || product.materials) && (
+                  <dl className="mt-5 space-y-2 border-t border-[var(--border-subtle)] pt-5 text-sm">
+                    {product.dimensions && (
+                      <div className="flex gap-3">
+                        <dt className="w-24 shrink-0 text-[var(--text-subtle)]">Size</dt>
+                        <dd className="min-w-0 break-words text-[var(--brand-wood)]">{product.dimensions}</dd>
+                      </div>
+                    )}
+                    {product.materials && (
+                      <div className="flex gap-3">
+                        <dt className="w-24 shrink-0 text-[var(--text-subtle)]">Materials</dt>
+                        <dd className="min-w-0 break-words text-[var(--brand-wood)]">{product.materials}</dd>
+                      </div>
+                    )}
+                  </dl>
+                )}
 
-                <a
-                  href={productWhatsappUrl({ name: product.name, category: categoryLabel })}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-wood)]"
-                >
-                  <FaWhatsapp size={17} />
-                  <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
-                    Ask on WhatsApp
-                  </span>
-                </a>
+                {product.customisable && (
+                  <p className="mt-5 text-sm leading-6 text-[var(--text-muted)]">
+                    Can be made to your size, colour and finish. Tell us what you
+                    want when you send your enquiry.
+                  </p>
+                )}
+
+                <div className="mt-auto flex flex-col items-stretch gap-3 pt-6 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3 sm:pt-8">
+                  <button
+                    type="button"
+                    aria-pressed={added}
+                    onClick={() =>
+                      toggle({
+                        id: product.id,
+                        name: product.name,
+                        image: product.images[0],
+                        category: categoryLabel,
+                      })
+                    }
+                    className={cn(
+                      "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2 sm:w-auto",
+                      added
+                        ? "bg-[var(--brand-gold)] text-[var(--brand-wood-deep)]"
+                        : "bg-[var(--brand-wood)] text-[var(--brand-ivory)] hover:bg-[var(--brand-wood-deep)]",
+                    )}
+                  >
+                    {added ? <Check size={16} /> : <Plus size={16} />}
+                    {added ? "Added to enquiry" : "Add to enquiry"}
+                  </button>
+
+                  <a
+                    href={productWhatsappUrl({ name: product.name, category: categoryLabel })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex min-h-11 w-full items-center justify-center gap-2 text-sm font-medium text-[var(--brand-wood)] sm:w-auto"
+                  >
+                    <FaWhatsapp size={17} />
+                    <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
+                      Ask on WhatsApp
+                    </span>
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>

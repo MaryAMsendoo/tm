@@ -23,7 +23,7 @@ export const siteConfig = {
 
   logo: "/TM-logo.jpeg",
 
-  whatsapp: "+2348057789650",
+  whatsapp: "+2349168549455",
   // TODO: replace with the real business email
   email: "tm@gmail.com",
 

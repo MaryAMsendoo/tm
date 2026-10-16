@@ -61,7 +61,7 @@ export function CustomDesigns() {
           {/* Copy */}
           <div>
             <WordReveal
-              text="Have a design in mind? We will build it."
+              text="Have a Design in Mind? We’ll Bring It to Life."
               className="max-w-xl font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] text-[var(--brand-wood)]"
             />
 
@@ -77,8 +77,7 @@ export function CustomDesigns() {
                 finish and the lighting with you, then send a price.
               </p>
               <p className="mt-4 max-w-lg text-base leading-7 text-[var(--text-muted)] lg:text-lg lg:leading-8">
-                Every piece in the shop can also be changed: a different size,
-                colour or handle.
+                Every Piece Can Be Customised to Your Preferred Size, Colour and Hardware.
               </p>
 
               <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">

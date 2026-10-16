@@ -72,9 +72,9 @@ export const heroSlides: HeroSlide[] = [
     name: "Living room collection",
     category: "living-room",
     eyebrow: "Living room",
-    title: "TV walls, consoles and storage made to fit your room.",
+    title: "TV Consoles, set of chairs and other Solutions Tailored to Your Space.",
     description:
-      "Built to your measurements, finish and lighting. Send us the space and we'll send you a price.",
+      "Crafted to Your Specifications, Preferred Finishes and Lighting Requirements.",
     image: "/f22.png",
     tag: "Living room",
   },

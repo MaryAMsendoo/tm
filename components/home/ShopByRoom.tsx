@@ -36,7 +36,7 @@ export function ShopByRoom() {
               transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
               className="max-w-sm text-base leading-7 text-[var(--text-muted)] lg:justify-self-end"
             >
-              Everything is made to order, to your size and finish. Pick a room
+              Every Piece Is Made to Order, with Dimensions and Finishes Tailored to Your Space. Pick a room
               to see what we have built.
             </motion.p>
           </div>

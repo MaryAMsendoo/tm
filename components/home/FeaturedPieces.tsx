@@ -22,7 +22,8 @@ export function FeaturedPieces() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <WordReveal
-                text="A few pieces to start with."
+                text="Explore Our Featured Collections.
+"
                 className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] text-[var(--brand-wood)]"
               />
               <motion.p

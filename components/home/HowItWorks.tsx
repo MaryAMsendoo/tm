@@ -21,7 +21,7 @@ const steps = [
   },
   {
     title: "Confirm",
-    text: "Once you are happy with the price and the details, we start building.",
+    text: "Once You Approve the Quotation and Specifications, We Begin Production at your site",
   },
 ];
 
@@ -37,9 +37,7 @@ export function HowItWorks() {
             className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] text-[var(--brand-wood)]"
           />
           <p className="mt-5 max-w-lg text-base leading-7 text-[var(--text-muted)]">
-            There is no cart and no checkout. You ask, we quote, and nothing is
-            charged until you agree.
-          </p>
+            We Make Ordering Simple. Share Your Requirements, Receive a Tailored Quotation, and Approve the Details Before Production Begins.</p>
 
           <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {steps.map((s, i) => (

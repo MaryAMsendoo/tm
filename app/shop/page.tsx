@@ -5,7 +5,7 @@ import { ShopView } from "@/components/shop/ShopView";
 export const metadata: Metadata = {
   title: "Shop",
   description:
-    "Kitchens, wardrobes, TV walls and wall pieces made to order in Abuja. Price on request.",
+    "Kitchens, wardrobes, TV Consoles, and wall Panels made to order in Abuja. Price on request.",
 };
 
 export default function ShopPage() {

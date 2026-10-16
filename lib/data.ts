@@ -72,7 +72,7 @@ export const heroSlides: HeroSlide[] = [
     name: "Living room collection",
     category: "living-room",
     eyebrow: "Living room",
-    title: "TV Consoles and storage made to fit your room.",
+    title: "TV walls, consoles and storage made to fit your room.",
     description:
       "Built to your measurements, finish and lighting. Send us the space and we'll send you a price.",
     image: "/f22.png",
@@ -83,7 +83,7 @@ export const heroSlides: HeroSlide[] = [
     name: "Kitchen collection",
     category: "kitchen",
     eyebrow: "Kitchen",
-    title: "Kitchen Cabinets and Store.",
+    title: "Kitchens planned around how you cook.",
     description:
       "Cabinets, islands and breakfast counters built to your layout. Send us the room and we'll send you a price.",
     image: "/f1.png",
@@ -94,7 +94,7 @@ export const heroSlides: HeroSlide[] = [
     name: "Bedroom collection",
     category: "bedroom",
     eyebrow: "Bedroom",
-    title: "Wardrobes and dressing units.",
+    title: "Wardrobes and dressing units made for the room you have.",
     description:
       "Floor-to-ceiling storage, dressing tables and lit mirrors, with handles and finishes you pick.",
     image: "/f10.png",
@@ -202,8 +202,8 @@ export const showroomArchiveItems: ShowroomArchiveItem[] = [
       ["/f14.png", "wall-pieces", "Circular wall shelf set"],
       ["/f15.png", "kitchen", "Marble island kitchen"],
       ["/f16.png", "living-room", "Open-plan living room"],
-      ["/f17.png", "living-room", "TV Consoles with marble panel"],
-      ["/f18.png", "living-room", "TV Consoles with arch alcove"],
+      ["/f17.png", "living-room", "TV wall with marble panel"],
+      ["/f18.png", "living-room", "TV wall with arch alcove"],
       ["/f19.png", "wall-pieces", "Lit organic mirror"],
       ["/f20.png", "living-room", "Slatted wall panel"],
       ["/f21.png", "kitchen", "Compact kitchen counter"],
@@ -307,11 +307,11 @@ export const products: Product[] = [
 
   // Living room
   { id: "living-storage-wall", name: "White and oak storage wall", category: "living-room", images: ["/f11.png"], description: "Tall storage with lit open shelves and a wood frame.", customisable: true },
-  { id: "living-tv-marble", name: "TV Consoles with marble panel", category: "living-room", images: ["/f17.png"], description: "Marble-look feature panel, wood slats and a floating console.", customisable: true, featured: true },
-  { id: "living-tv-arch", name: "TV Consoles with arch alcove", category: "living-room", images: ["/f18.png"], description: "Wood-toned TV panel, long floating console and a lit arch niche.", customisable: true },
-  { id: "living-tv-slats", name: "TV Consoles with slatted panels", category: "living-room", images: ["/f20.png"], description: "Backlit TV surround, slatted side panel and a floating cabinet.", customisable: true },
+  { id: "living-tv-marble", name: "TV wall with marble panel", category: "living-room", images: ["/f17.png"], description: "Marble-look feature panel, wood slats and a floating console.", customisable: true, featured: true },
+  { id: "living-tv-arch", name: "TV wall with arch alcove", category: "living-room", images: ["/f18.png"], description: "Wood-toned TV panel, long floating console and a lit arch niche.", customisable: true },
+  { id: "living-tv-slats", name: "TV wall with slatted panels", category: "living-room", images: ["/f20.png"], description: "Backlit TV surround, slatted side panel and a floating cabinet.", customisable: true },
   { id: "living-room-set", name: "Living room with TV console", category: "living-room", images: ["/f16.png"], description: "An open living and dining space with a low TV console.", customisable: true },
-  { id: "living-sectional", name: "Sectional sofa and TV Consoles", category: "living-room", images: ["/f22.png"], description: "Corner sectional, coffee table and a white panelled TV Consoles.", customisable: true, featured: true },
+  { id: "living-sectional", name: "Sectional sofa and TV wall", category: "living-room", images: ["/f22.png"], description: "Corner sectional, coffee table and a white panelled TV wall.", customisable: true, featured: true },
 
   // Wall pieces
   { id: "wall-sculpted-shelf", name: "Sculpted wall shelf with mirror", category: "wall-pieces", images: ["/f12.png"], description: "A curved slatted panel with floating shelves and a round mirror.", customisable: true },
@@ -348,14 +348,14 @@ export const portfolioProjects: PortfolioProject[] = [
   { id: "p-sofa-blue-workshop", title: "Blue workshop sofa set", category: "sofas", image: sofaBlueWorkshopImages[0] },
   { id: "p-kitchen-island", title: "Open-plan kitchen with marble island", category: "kitchen", image: "/f15.png" },
   { id: "p-bedroom-wardrobe", title: "Wardrobe wall with dressing table", category: "bedroom", image: "/f6.png" },
-  { id: "p-tv-wall", title: "Living room TV Consoles", category: "living-room", image: "/f17.png" },
+  { id: "p-tv-wall", title: "Living room TV wall", category: "living-room", image: "/f17.png" },
   { id: "p-wall-mirror", title: "Sculpted shelves with round mirror", category: "wall-pieces", image: "/f12.png" },
   { id: "p-kitchen-grey", title: "Gloss grey kitchen", category: "kitchen", image: "/f2.png" },
   { id: "p-kitchen-counter", title: "Compact kitchen with counter", category: "kitchen", image: "/f21.png" },
   { id: "p-bedroom-walnut", title: "Walnut wardrobe and vanity", category: "bedroom", image: "/f8.png" },
   { id: "p-bedroom-gold", title: "Wardrobe with brass handles", category: "bedroom", image: "/f9.png" },
-  { id: "p-tv-arch", title: "TV Consoles with arch alcove", category: "living-room", image: "/f18.png" },
-  { id: "p-living-sectional", title: "Living room with panelled TV Consoles", category: "living-room", image: "/f22.png" },
+  { id: "p-tv-arch", title: "TV wall with arch alcove", category: "living-room", image: "/f18.png" },
+  { id: "p-living-sectional", title: "Living room with panelled TV wall", category: "living-room", image: "/f22.png" },
   { id: "p-wall-console", title: "Floating console with lit mirror", category: "wall-pieces", image: "/f13.png" },
   { id: "p-wall-organic", title: "Lit organic mirror", category: "wall-pieces", image: "/f19.png" },
 ];

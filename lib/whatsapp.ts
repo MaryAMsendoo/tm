@@ -2,20 +2,21 @@ import { siteConfig } from "./data";
 import type { EnquiryItem } from "./enquiry-store";
 
 export function whatsappUrl(text: string) {
-const number = siteConfig.whatsapp.replace(/\D/g, "");
-return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;}
+  const number = siteConfig.whatsapp.replace(/\D/g, "");
+  return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
+}
 
 export function generalWhatsappUrl() {
   return whatsappUrl(
-    `Hello ${siteConfig.shortName}, I'd like to make an enquiry.`,
+    `Hello ${siteConfig.shortName}, I'd like to request a quote.`,
   );
 }
 
-/** One product: use this for the "Ask for price" button on a product card. */
+/** One product: use this for the "Ask on WhatsApp" button on a product card. */
 export function productWhatsappUrl(item: Pick<EnquiryItem, "name" | "category">) {
   const cat = item.category ? ` (${item.category})` : "";
   return whatsappUrl(
-    `Hello ${siteConfig.shortName}, I'd like a price for the ${item.name}${cat}. Is it available?`,
+    `Hello ${siteConfig.shortName}, I'd like a quote for the ${item.name}${cat}. Is it available?`,
   );
 }
 
@@ -33,12 +34,12 @@ export function buildEnquiryText(items: EnquiryItem[]) {
   });
 
   return [
-    `Hello ${siteConfig.shortName},` ,
-    "I'd like to enquire about the following pieces:",
+    `Hello ${siteConfig.shortName},`,
+    "I'd like to request a quote for the following pieces:",
     "",
     ...lines,
     "",
-    "Please share the price, finish options, and availability for each item.",
+    "Please share the price, finish options and availability for each item.",
     "Thank you.",
   ].join("\n");
 }
@@ -48,6 +49,6 @@ export function enquiryWhatsappUrl(items: EnquiryItem[]) {
 }
 
 export function enquiryEmailUrl(items: EnquiryItem[]) {
-  const subject = `Price enquiry: ${items.length} item${items.length === 1 ? "" : "s"}`;
+  const subject = `Quote request: ${items.length} item${items.length === 1 ? "" : "s"}`;
   return `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildEnquiryText(items))}`;
 }

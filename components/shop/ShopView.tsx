@@ -115,7 +115,7 @@ export function ShopView() {
         <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-12 lg:px-8 lg:pb-28 lg:pt-16">
           <WordReveal
             as="h1"
-            text="Everything we have built."
+            text="Everything We Have Built"
             className="font-display text-[clamp(2.4rem,5vw,4rem)] font-medium leading-[1.05] text-[var(--brand-wood)]"
           />
           <motion.p
@@ -125,7 +125,7 @@ export function ShopView() {
             className="mt-5 max-w-lg text-base leading-7 text-[var(--text-muted)]"
           >
             Prices are given on request, because each piece is made to your
-            size and finish. Add what you like to your enquiry list.
+            size and finish. Add what you like to your quote list.
           </motion.p>
 
           {/* Sticky filters */}
@@ -220,7 +220,7 @@ export function ShopView() {
             <div className="mt-12 max-w-md">
               <p className="font-display text-3xl text-[var(--brand-wood)]">
                 {category && filteredArchive.length > 0 && !query.trim()
-                  ? `No shop listings for ${categories.find((c) => c.slug === category)?.label ?? category}.`
+                  ? `No shop listings for ${(categories.find((c) => c.slug === category)?.label ?? category).toLowerCase()}.`
                   : "Nothing matches that yet."}
               </p>
               <p className="mt-3 text-base leading-7 text-[var(--text-muted)]">
@@ -253,7 +253,7 @@ export function ShopView() {
                   Showroom archive
                 </p>
                 <h2 className="mt-2 font-display text-3xl text-[var(--brand-wood)] sm:text-4xl">
-                  A curated gallery of the complete furniture archive
+                  A Curated Gallery of the Complete Furniture Archive
                 </h2>
               </div>
               
@@ -286,7 +286,7 @@ export function ShopView() {
                         className="absolute inset-0 z-10 flex items-end justify-center bg-gradient-to-t from-black/45 via-transparent to-transparent p-5 text-sm font-medium text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--brand-gold)]"
                       >
                         <span className="rounded-full border border-white/35 bg-black/35 px-4 py-2 backdrop-blur-sm">
-                          {item.type === "video" ? "Play video" : "View piece"}
+                          {item.type === "video" ? "Play Video" : "View Piece"}
                         </span>
                       </button>
                       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between p-3">
@@ -325,7 +325,7 @@ export function ShopView() {
                               : "bg-[var(--brand-wood)] text-[var(--brand-ivory)] hover:bg-[var(--brand-wood-deep)]",
                           )}
                         >
-                          {added ? "In enquiry" : "Add to enquiry"}
+                          {added ? "In Quote List" : "Add to Quote List"}
                         </button>
 
                         <a
@@ -436,7 +436,7 @@ export function ShopView() {
                   )}
                 >
                   {showroomViewAdded ? <Check size={16} /> : <Plus size={16} />}
-                  {showroomViewAdded ? "In enquiry" : "Add to enquiry"}
+                  {showroomViewAdded ? "In Quote List" : "Add to Quote List"}
                 </button>
               </div>
             </motion.div>

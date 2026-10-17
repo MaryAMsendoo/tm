@@ -9,19 +9,19 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 const steps = [
   {
     title: "Choose",
-    text: "Add pieces from the shop to your enquiry list, or describe what you want.",
+    text: "Add pieces from the shop to your quote list, or describe what you want.",
   },
   {
     title: "Send",
     text: "Send the list to us on WhatsApp or by email. It is written out for you.",
   },
   {
-    title: "Get a price",
+    title: "Get a Price",
     text: "We reply with a price for each piece and ask for measurements if we need them.",
   },
   {
     title: "Confirm",
-    text: "Once You Approve the Quotation and Specifications, We Begin Production at your site",
+    text: "Once you approve the quotation and specifications, we begin production at your site.",
   },
 ];
 
@@ -33,11 +33,11 @@ export function HowItWorks() {
 
         <div className="relative mx-auto max-w-7xl px-5 py-16 lg:px-8 lg:py-24">
           <WordReveal
-            text="How an enquiry works."
+            text="How Requesting a Quote Works"
             className="font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] text-[var(--brand-wood)]"
           />
           <p className="mt-5 max-w-lg text-base leading-7 text-[var(--text-muted)]">
-            We Make Ordering Simple. Share Your Requirements, Receive a Tailored Quotation, and Approve the Details Before Production Begins.</p>
+            We make ordering simple. Share your requirements, receive a tailored quotation, and approve the details before production begins.</p>
 
           <ol className="mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {steps.map((s, i) => (

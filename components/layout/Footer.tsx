@@ -41,7 +41,7 @@ export function Footer() {
         <div className="mx-auto flex max-w-7xl flex-col gap-8 px-5 py-16 lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:py-20">
           <div className="max-w-2xl">
             <h2 className="font-display text-4xl font-semibold leading-tight sm:text-5xl">
-              Have a Design in Mind? Let Us Bring It to Life with Craftsmanship Tailored to You after coming over to take measurements at your site.
+              Designed around your lifestyle.
             </h2>
             <p className="mt-4 max-w-xl text-[var(--about-text)]/70">
               Share a photo, a size, or just an idea. Every piece is made to

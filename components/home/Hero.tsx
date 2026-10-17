@@ -13,34 +13,35 @@ import {
 import { Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import { featuredVideos, heroSlides } from "../../lib/data";
+import { featuredVideos, heroBrand, heroSlides } from "../../lib/data";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
 import { useEnquiry } from "../../context/EnquiryContext";
-import { SectionBackdrop } from "../ui/SectionBackdrop";
 
 const SLIDE_MS = 6000;
 const EASE = [0.22, 1, 0.36, 1] as const;
 const TOTAL = heroSlides.length;
 
-const pad = (n: number) => String(n).padStart(2, "0");
-
-// The copy block re-enters on every slide change.
-const copyGroup: Variants = {
+// Brand block: plays once on page load, then stays put.
+const brandGroup: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
-  exit: { transition: { staggerChildren: 0.02, staggerDirection: -1 } },
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } },
 };
 
 const word: Variants = {
   hidden: { y: "110%" },
-  show: { y: 0, transition: { duration: 0.8, ease: EASE } },
-  exit: { y: "-110%", transition: { duration: 0.32, ease: EASE } },
+  show: { y: 0, transition: { duration: 0.9, ease: EASE } },
 };
 
-const fade: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
-  exit: { opacity: 0, transition: { duration: 0.18 } },
+const rise: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
+};
+
+// Product line: changes with every slide.
+const productLine: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
 };
 
 export function Hero() {
@@ -89,7 +90,6 @@ export function Hero() {
             />
           )}
         </div>
-        <SectionBackdrop variant="amber" tone="dark" className="z-0 opacity-20" />
         <div
           aria-hidden="true"
           className="absolute inset-0 z-0 bg-[linear-gradient(90deg,rgba(16,15,12,0.78)_0%,rgba(16,15,12,0.56)_48%,rgba(16,15,12,0.38)_100%)]"
@@ -98,41 +98,69 @@ export function Hero() {
         <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-14 px-5 py-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:px-8 lg:py-20">
           {/* Copy */}
           <div>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={slide.id}
-                variants={copyGroup}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-              >
-                <h1 className="mt-6 min-h-[3.1em] font-display text-[clamp(2.6rem,5.6vw,4.4rem)] font-medium leading-[1.04] text-[var(--brand-ivory)]">
-                  {slide.title.split(" ").map((w, i) => (
-                    <span
-                      key={`${w}-${i}`}
-                      className="-mb-[0.12em] mr-[0.22em] inline-block overflow-hidden pb-[0.12em] align-bottom"
-                    >
-                      <motion.span variants={word} className="inline-block">
-                        {w}
-                      </motion.span>
-                    </span>
-                  ))}
-                </h1>
+            {/* Brand statement: static, always visible */}
+            <motion.div
+              variants={brandGroup}
+              initial="hidden"
+              animate="show"
+            >
+              <h1 className="font-display text-[clamp(2.4rem,5.6vw,4.6rem)] font-bold uppercase leading-[1.05] tracking-[0.03em] text-[var(--brand-ivory)]">
+                {heroBrand.eyebrow.split(" ").map((w, i) => (
+                  <span
+                    key={`${w}-${i}`}
+                    className="-mb-[0.12em] mr-[0.24em] inline-block overflow-hidden pb-[0.12em] align-bottom"
+                  >
+                    <motion.span variants={word} className="inline-block">
+                      {w}
+                    </motion.span>
+                  </span>
+                ))}
+              </h1>
 
-                <motion.p
-                  variants={fade}
-                  className="mt-6 max-w-md text-base leading-7 text-[rgba(247,241,230,0.84)] lg:text-lg lg:leading-8"
+              <motion.p
+                variants={rise}
+                className="mt-2 font-display text-[1.5rem] italic text-[var(--brand-gold)] lg:text-2xl"
+              >
+                {heroBrand.headline}
+              </motion.p>
+
+              <motion.p
+                variants={rise}
+                className="mt-5 max-w-xl text-base leading-7 text-[rgba(247,241,230,0.88)] lg:text-lg lg:leading-8"
+              >
+                {heroBrand.sublines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </motion.p>
+            </motion.div>
+
+            {/* Rotating product line: what the carousel is showing right now */}
+            <div className="mt-8 min-h-[7.5rem] max-w-md border-l border-[var(--brand-gold)] pl-5">
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={slide.id}
+                  variants={productLine}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
                 >
-                  {slide.description}
-                </motion.p>
-              </motion.div>
-            </AnimatePresence>
+                  <p className="text-sm font-medium text-[var(--brand-gold)]">
+                    {slide.eyebrow}
+                  </p>
+                  <p className="mt-1.5 text-base leading-7 text-[rgba(247,241,230,0.84)] lg:text-lg lg:leading-8">
+                    {slide.description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
             <motion.div
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.7, ease: EASE }}
-              className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4"
+              transition={{ delay: 0.7, duration: 0.7, ease: EASE }}
+              className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4"
             >
               <Link
                 href="/shop"
@@ -157,8 +185,8 @@ export function Hero() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
-              className="mt-12 flex max-w-lg items-center gap-5 pt-6"
+              transition={{ delay: 1, duration: 0.6 }}
+              className="mt-10 flex max-w-lg items-center gap-5"
             >
               <div className="flex items-center gap-2">
                 <button
@@ -178,11 +206,10 @@ export function Hero() {
                   <ChevronRight size={18} />
                 </button>
               </div>
-
             </motion.div>
           </div>
 
-          {/* Arch frame */}
+          {/* Arch frame (unchanged) */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

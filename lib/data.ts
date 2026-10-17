@@ -14,10 +14,19 @@ export type SocialKey =
   | "linkedin"
   | "youtube";
 
+export const heroBrand = {
+  eyebrow: "TM Artisan Company Ltd",
+  headline: "Built to Belong.",
+  sublines: [
+    "Exceptional Furniture.",
+    "Thoughtfully Designed Interiors.",
+  ],
+};
+  
 export const siteConfig = {
   name: "TM Artisan Enterprise",
   shortName: "TM Artisan",
-  tagline: "Furniture made by hand, made for your space.",
+  tagline: "Furniture made by hand - Built to Belong",
   description:
     "Custom and ready-made furniture, crafted in Abuja. Tell us what you have in mind and we'll send you a price.",
 
@@ -74,7 +83,7 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: "Living room",
     title: "TV Consoles, set of chairs and other Solutions Tailored to Your Space.",
     description:
-      "Crafted to Your Specifications, Preferred Finishes and Lighting Requirements.",
+      "Crafted to your specifications.",
     image: "/f22.png",
     tag: "Living room",
   },

@@ -15,7 +15,7 @@ export default function CustomDesignsPage() {
   return (
     <>
       <PageHeader
-        title="Bring the idea. We will build it."
+        title="Crafted to your specifications."
         intro="A photo you saved, a sketch on paper, or only the measurements of the wall. Start with whatever you have."
         variant="canvas"
       />

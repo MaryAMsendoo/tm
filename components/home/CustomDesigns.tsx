@@ -61,7 +61,7 @@ export function CustomDesigns() {
           {/* Copy */}
           <div>
             <WordReveal
-              text="Have a Design in Mind? We’ll Bring It to Life."
+              text="Designed around your lifestyle."
               className="max-w-xl font-display text-[clamp(2rem,4.4vw,3.4rem)] font-medium leading-[1.06] text-[var(--brand-wood)]"
             />
 

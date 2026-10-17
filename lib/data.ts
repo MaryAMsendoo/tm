@@ -25,6 +25,8 @@ export const heroBrand = {
 
 // Paste into lib/data.ts. Replaces the old founder's-story copy that lived in the About page.
 
+// Paste into lib/data.ts. Replaces the old founder's-story copy that lived in the About page.
+
 export const ourStory = {
   lede:
     "TM Artisan Company Ltd was born from a passion for craftsmanship, a vision for exceptional interiors, and a determination to transform spaces through creativity, precision, and purposeful design.",
@@ -42,7 +44,7 @@ export const ourStory = {
 };
 
 export const ceoMessage = {
-  title: "A message from our CEO",
+  title: "Meet our founder and CEO",
   paragraphs: [
     "At TM Artisan Company Ltd, we believe that every space deserves furniture that reflects its purpose, personality, and potential.",
     "Our commitment goes beyond creating furniture. We strive to deliver thoughtful solutions, dependable service, and workmanship that our customers can take pride in.",
@@ -53,8 +55,33 @@ export const ceoMessage = {
   role: "Founder & Chief Executive Officer",
   company: "TM Artisan Company Ltd",
   sign: "Built to Belong.",
-  // Optional: add a portrait at /public/ceo.jpg and set it here to show it.
-  photo: "/ceo-tm.jpeg" as string,
+  photo: "/ceo-tm.jpeg",
+};
+
+// Draft copy for the owner to approve. Built from what the brief already says
+// (made to order, customer's measurements, finish and budget).
+export const craftsmanship = {
+  title: "Our approach to craftsmanship",
+  intro:
+    "Every piece is made for a particular room, so we start from your space instead of a fixed catalogue.",
+  points: [
+    {
+      title: "Built around your room",
+      text: "We work from your measurements, your finish and your budget, so each piece fits the wall, alcove or room you actually have.",
+    },
+    {
+      title: "Your choices, your piece",
+      text: "Board type, colour, material, handles, lighting and mirrors are picked with you, starting from a piece in our collection, your own photo or a sketch.",
+    },
+    {
+      title: "Attention to detail",
+      text: "Clean finishing, neat joins and careful installation. We treat every project as work our name goes on.",
+    },
+    {
+      title: "Clear and dependable",
+      text: "You get a price before work begins, honest timelines and a team that answers when you call.",
+    },
+  ],
 };
   
 export const siteConfig = {

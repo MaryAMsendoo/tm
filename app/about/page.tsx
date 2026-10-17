@@ -4,13 +4,25 @@ import type { Metadata } from "next";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { Reveal } from "../../components/ui/Reveal";
 import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
-import { ceoMessage, mission, ourStory, values, vision } from "../../lib/data";
+import {
+  ceoMessage,
+  craftsmanship,
+  mission,
+  ourStory,
+  portfolioProjects,
+  values,
+  vision,
+} from "../../lib/data";
 
 export const metadata: Metadata = {
   title: "About",
   description:
     "TM Artisan Company Ltd makes bespoke furniture and interiors in Abuja. Built to Belong.",
 };
+
+const featuredWork = portfolioProjects.filter((p) =>
+  ["p-kitchen-island", "p-bedroom-wardrobe", "p-tv-wall"].includes(p.id),
+);
 
 export default function AboutPage() {
   return (
@@ -29,7 +41,7 @@ export default function AboutPage() {
             {/* Placeholder image: replace with a photo of the workshop or the founder. */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--brand-cream)]">
               <Image
-                src="/ceo-tm.png"
+                src="/f6.png"
                 alt="A fitted wardrobe with a built-in dressing table"
                 fill
                 sizes="(min-width: 1024px) 34vw, 92vw"
@@ -92,7 +104,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CEO message: set as a letter on a dark band so it reads differently from the story */}
+      {/* Meet our founder and CEO: picture + message, on a dark band so it reads as a personal letter */}
       <section className="relative isolate overflow-hidden bg-[var(--brand-charcoal)]">
         <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-5 py-16 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:px-8 lg:py-24">
           <Reveal>
@@ -100,12 +112,12 @@ export default function AboutPage() {
               {ceoMessage.title}
             </h2>
             {ceoMessage.photo ? (
-              <div className="relative mt-8 aspect-[4/5] max-w-xs overflow-hidden rounded-2xl">
+              <div className="relative mt-8 aspect-[4/5] max-w-sm overflow-hidden rounded-2xl">
                 <Image
                   src={ceoMessage.photo}
                   alt={`${ceoMessage.name}, ${ceoMessage.role}`}
                   fill
-                  sizes="(min-width: 1024px) 24vw, 70vw"
+                  sizes="(min-width: 1024px) 30vw, 80vw"
                   className="object-cover"
                 />
               </div>
@@ -144,26 +156,87 @@ export default function AboutPage() {
 
       {/* Values */}
       <section className="relative overflow-hidden">
-        <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-14 lg:px-8 lg:pb-28 lg:pt-20">
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
           <Reveal>
             <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.8rem)] font-medium text-[var(--brand-wood)]">
-              What we hold to
+              Our values
             </h2>
           </Reveal>
           <ul className="mt-10 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((v, i) => (
               <li key={v}>
                 <Reveal delay={(i % 4) * 0.06} className="border-t border-[var(--border-subtle)] py-5">
-                  <span className="mr-3 text-sm tabular-nums text-[var(--brand-gold-deep)]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
                   <span className="font-display text-2xl text-[var(--brand-wood)]">{v}</span>
                 </Reveal>
               </li>
             ))}
           </ul>
+        </div>
+      </section>
 
-          <Reveal className="mt-12">
+      {/* Approach to craftsmanship */}
+      <section className="relative overflow-hidden">
+        <SectionBackdrop variant="ribbon" tone="light" className="opacity-90" />
+        <div className="relative mx-auto max-w-7xl px-5 py-14 lg:px-8 lg:py-20">
+          <Reveal>
+            <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.8rem)] font-medium text-[var(--brand-wood)]">
+              {craftsmanship.title}
+            </h2>
+            <p className="mt-4 max-w-xl text-base leading-7 text-[var(--text-muted)] lg:text-lg lg:leading-8">
+              {craftsmanship.intro}
+            </p>
+          </Reveal>
+          <div className="mt-10 grid gap-x-12 gap-y-2 md:grid-cols-2">
+            {craftsmanship.points.map((pt, i) => (
+              <Reveal
+                key={pt.title}
+                delay={(i % 2) * 0.08}
+                className="border-t border-[var(--border-subtle)] py-6"
+              >
+                <h3 className="font-display text-2xl text-[var(--brand-wood)]">{pt.title}</h3>
+                <p className="mt-2 max-w-md text-base leading-7 text-[var(--text-muted)]">
+                  {pt.text}
+                </p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Portfolio link */}
+      <section className="relative overflow-hidden">
+        <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-6 lg:px-8 lg:pb-28">
+          <Reveal>
+            <h2 className="font-display text-[clamp(1.8rem,3.6vw,2.8rem)] font-medium text-[var(--brand-wood)]">
+              See the work
+            </h2>
+          </Reveal>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {featuredWork.map((w, i) => (
+              <Reveal key={w.id} delay={i * 0.08}>
+                <Link href="/portfolio" className="group block">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--brand-cream)]">
+                    <Image
+                      src={w.image}
+                      alt={w.title}
+                      fill
+                      sizes="(min-width: 640px) 30vw, 92vw"
+                      className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                    />
+                  </div>
+                  <p className="mt-3 text-sm text-[var(--text-muted)]">{w.title}</p>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+
+          <Reveal className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <Link
+              href="/portfolio"
+              className="inline-flex items-center justify-center rounded-full bg-[var(--brand-wood)] px-7 py-3.5 text-sm font-medium text-[var(--brand-ivory)] transition hover:bg-[var(--brand-wood-deep)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2"
+            >
+              View our portfolio
+            </Link>
             <Link
               href="/contact"
               className="group inline-flex items-center text-sm font-medium text-[var(--brand-wood)]"

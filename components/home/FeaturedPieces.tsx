@@ -33,8 +33,7 @@ export function FeaturedPieces() {
                 transition={{ duration: 0.6, ease: EASE, delay: 0.2 }}
                 className="mt-5 max-w-lg text-base leading-7 text-[var(--text-muted)]"
               >
-                Add the ones you like to your enquiry list. We will send one
-                price for the whole list.
+                Add your preferred items to your enquiry list, and we’ll prepare a detailed quotation based on your selected products and specifications.
               </motion.p>
             </div>
 

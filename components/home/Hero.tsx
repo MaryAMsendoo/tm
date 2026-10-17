@@ -119,7 +119,7 @@ export function Hero() {
 
               <motion.p
                 variants={rise}
-                className="mt-2 font-display text-[1.5rem] italic text-[var(--brand-gold)] lg:text-2xl"
+                className="mt-2 font-display text-[1rem] italic text-[var(--brand-gold)] lg:text-2xl"
               >
                 {heroBrand.headline}
               </motion.p>

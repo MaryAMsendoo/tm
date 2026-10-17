@@ -77,9 +77,7 @@ export function CustomDesigns() {
                 finish and the lighting with you, then send a price.
               </p>
               <p className="mt-4 max-w-lg text-base leading-7 text-[var(--text-muted)] lg:text-lg lg:leading-8">
-                Every Piece Can Be Customised to Your Preferred Size, Colour and Hardware.
-              </p>
-
+                Tell us what you need or send us your inspiration.</p>
               <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <Link
                   href="/custom-designs"

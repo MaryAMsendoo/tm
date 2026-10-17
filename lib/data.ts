@@ -22,6 +22,40 @@ export const heroBrand = {
     "Thoughtfully Designed Interiors.",
   ],
 };
+
+// Paste into lib/data.ts. Replaces the old founder's-story copy that lived in the About page.
+
+export const ourStory = {
+  lede:
+    "TM Artisan Company Ltd was born from a passion for craftsmanship, a vision for exceptional interiors, and a determination to transform spaces through creativity, precision, and purposeful design.",
+  paragraphs: [
+    "Founded by Terver Ambrose Msuega, a 29-year-old entrepreneur with practical industry exposure gained through his years of experience with Metro X Furniture Company, TM Artisan represents the coming together of professional insight, hands-on craftsmanship, and an ambitious vision for the future of furniture and interior design.",
+    "Currently serving as a National Youth Service Corps (NYSC) member in Abuja, the company's founder continues to build a business driven by discipline, innovation, and the belief that quality craftsmanship should be both functional and meaningful.",
+    "At TM Artisan, we specialise in bespoke furniture production, kitchen cabinets, wardrobes, bedroom furniture, office furnishings, and interior solutions tailored to the unique needs of individuals, homes, and businesses. We approach every project with attention to detail, a commitment to quality, and an understanding that every space deserves a design that reflects its purpose and personality.",
+    "Our ambition extends beyond making furniture. We aspire to build lasting relationships, deliver dependable service, create value for our clients, and establish TM Artisan as a trusted name in the furniture and interior design industry.",
+  ],
+  philosophy:
+    "Every space has a purpose, every design tells a story, and every piece should feel as though it belongs.",
+  closing:
+    "That is the vision behind our name, the principle behind our craftsmanship, and the promise behind our motto:",
+  motto: "TM Artisan — Built to Belong.",
+};
+
+export const ceoMessage = {
+  title: "A message from our CEO",
+  paragraphs: [
+    "At TM Artisan Company Ltd, we believe that every space deserves furniture that reflects its purpose, personality, and potential.",
+    "Our commitment goes beyond creating furniture. We strive to deliver thoughtful solutions, dependable service, and workmanship that our customers can take pride in.",
+    "As we continue to grow, our guiding principles remain excellence, integrity, creativity, and respect for every customer who places their trust in us.",
+    "Thank you for being part of our journey.",
+  ],
+  name: "Terver Ambrose Msuega",
+  role: "Founder & Chief Executive Officer",
+  company: "TM Artisan Company Ltd",
+  sign: "Built to Belong.",
+  // Optional: add a portrait at /public/ceo.jpg and set it here to show it.
+  photo: "/ceo-tm.jpeg" as string,
+};
   
 export const siteConfig = {
   name: "TM Artisan Enterprise",

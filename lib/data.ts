@@ -23,10 +23,6 @@ export const heroBrand = {
   ],
 };
 
-// Paste into lib/data.ts. Replaces the old founder's-story copy that lived in the About page.
-
-// Paste into lib/data.ts. Replaces the old founder's-story copy that lived in the About page.
-
 export const ourStory = {
   lede:
     "TM Artisan Company Ltd was born from a passion for craftsmanship, a vision for exceptional interiors, and a determination to transform spaces through creativity, precision, and purposeful design.",
@@ -95,7 +91,7 @@ export const siteConfig = {
 
   whatsapp: "+2349168549455",
   // TODO: replace with the real business email
-  email: "tm@gmail.com",
+  email: "terverambrosemsuega@gmail.com",
 
   phones: ["+2349168549455", "+2347012724991"],
   address: "Gosa, Airport Road, Abuja, FCT, Nigeria",

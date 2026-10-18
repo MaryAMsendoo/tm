@@ -24,7 +24,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "TM Artisan Enterprise",
+  title: "TM Artisan Company Ltd",
   description: "Crafted furniture and luxury statement pieces for refined spaces.",
 };
 

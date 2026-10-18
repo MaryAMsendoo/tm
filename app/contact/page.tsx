@@ -9,7 +9,7 @@ import { generalWhatsappUrl } from "../../lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Visit, call or message TM Artisan Enterprise in Gosa, Airport Road, Abuja.",
+  description: "Visit, call or message TM Artisan Company Ltd in Gosa, Airport Road, Abuja.",
 };
 
 // +2349168549455 -> 0916 854 9455

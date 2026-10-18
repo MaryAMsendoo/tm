@@ -81,7 +81,7 @@ export const craftsmanship = {
 };
   
 export const siteConfig = {
-  name: "TM Artisan Enterprise",
+  name: "TM Artisan Company Ltd",
   shortName: "TM Artisan",
   tagline: "Furniture made by hand - Built to Belong",
   description:

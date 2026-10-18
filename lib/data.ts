@@ -42,11 +42,9 @@ export const ourStory = {
 export const ceoMessage = {
   title: "Meet our founder and CEO",
   paragraphs: [
-    "At TM Artisan Company Ltd, we believe that every space deserves furniture that reflects its purpose, personality, and potential.",
-    "Our commitment goes beyond creating furniture. We strive to deliver thoughtful solutions, dependable service, and workmanship that our customers can take pride in.",
-    "As we continue to grow, our guiding principles remain excellence, integrity, creativity, and respect for every customer who places their trust in us.",
-    "Thank you for being part of our journey.",
-  ],
+  "At TM Artisan Company Ltd, we transform spaces through quality craftsmanship, creative design, and functional furniture solutions. Founded by Terver Ambrose Msuega, we specialise in bespoke furniture, kitchen cabinets, wardrobes, office furnishings, and interior solutions tailored to our clients’ needs.",
+  "Driven by excellence, integrity, and customer satisfaction, we are committed to delivering lasting value, dependable service, and spaces that inspire.",
+],
   name: "Terver Ambrose Msuega",
   role: "Founder & Chief Executive Officer",
   company: "TM Artisan Company Ltd",
@@ -98,8 +96,8 @@ export const siteConfig = {
 
   // Leave href empty until you have the real link; empty ones are hidden.
   socials: [
-    { key: "facebook", label: "Facebook", href: "" },
-    { key: "instagram", label: "Instagram", href: "" },
+{ key: "facebook", label: "Facebook", href: "https://www.facebook.com/share/19d2ppqaev/?mibextid=wwXIfr" },   
+ { key: "instagram", label: "Instagram", href: "" },
     { key: "tiktok", label: "TikTok", href: "" },
     { key: "x", label: "X", href: "" },
     { key: "linkedin", label: "LinkedIn", href: "" },
@@ -439,7 +437,7 @@ export const testimonials: Testimonial[] = [
   {
     id: "t1",
     quote:
-      "TM Artisan did an excellent job on our built-in wardrobe and dressing unit in Gwarinpa. The finishing was clean, the craftsmanship was solid, and the entire process felt professional from start to finish. We are very happy with the result.",
+      "Through the avenue lounge appreciated our furniture interior design rating it and highly recommending us.",
     name: "Aisha Yusuf",
     detail: "Built-in wardrobe and dressing unit, Gwarinpa",
     avatar: "/avatars/aisha.svg",

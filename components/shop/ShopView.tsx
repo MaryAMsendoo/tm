@@ -90,22 +90,32 @@ export function ShopView() {
   const filteredArchive = showroomArchiveItems.filter((item) =>
     category === null ? true : item.category === category,
   );
-  const archiveImages = filteredArchive.filter((item) => item.type === "image");
-  const archiveVideos = filteredArchive.filter((item) => item.type === "video");
-  const mixedArchive = [
-    ...archiveImages.map((item, index) => ({
-      item,
-      position: index / Math.max(archiveImages.length, 1),
-      priority: 0,
-    })),
-    ...archiveVideos.map((item, index) => ({
-      item,
-      position: (index + 0.5) / Math.max(archiveVideos.length, 1),
-      priority: 1,
-    })),
-  ]
-    .sort((left, right) => left.position - right.position || left.priority - right.priority)
-    .map(({ item }) => item);
+  // Mix the archive instead of showing one category after another.
+  // Items are grouped by series (for example "warm wood wardrobe"), then each
+  // series is spread evenly across the whole list, so small series are not
+  // pushed to the end. No randomness, so server and browser render the same.
+  const mixedArchive = (() => {
+    const groups = new Map<string, ShowroomArchiveItem[]>();
+    for (const item of filteredArchive) {
+      const key = item.id.replace(/-\d+$/, "");
+      const group = groups.get(key);
+      if (group) group.push(item);
+      else groups.set(key, [item]);
+    }
+    return [...groups.values()]
+      .flatMap((items, groupIndex) =>
+        items.map((item, index) => ({
+          item,
+          position: (index + 0.5) / items.length,
+          groupIndex,
+        })),
+      )
+      .sort(
+        (left, right) =>
+          left.position - right.position || left.groupIndex - right.groupIndex,
+      )
+      .map(({ item }) => item);
+  })();
 
   return (
     <MotionConfig reducedMotion="user">

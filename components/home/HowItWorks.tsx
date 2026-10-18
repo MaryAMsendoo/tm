@@ -69,6 +69,15 @@ export function HowItWorks() {
               </motion.li>
             ))}
           </ol>
+          <div className="mt-12 max-w-3xl border-l-2 border-[var(--brand-gold)] pl-6">
+  <p className="text-base font-semibold leading-7 text-[var(--brand-wood)]">
+    Before a quotation is prepared, measurements must first be taken to
+    ensure accuracy.
+  </p>
+  <p className="mt-3 text-base font-semibold leading-7 text-[var(--brand-wood)]">
+    We are willing to deliver our furniture anywhere within Nigeria.
+  </p>
+</div>
         </div>
       </section>
     </MotionConfig>

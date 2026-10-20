@@ -44,7 +44,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <EnquiryProvider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1">{childrenn}</main>
           <Footer />
           <EnquiryDrawer />
           <WhatsAppFab />

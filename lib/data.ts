@@ -175,6 +175,13 @@ export const sofaGreyCurvedImages = buildImageSet("sofa-grey-curved", 13);
 export const sofaRedTuftedImages = buildImageSet("sofa-red-tufted", 6);
 export const sofaBlueWorkshopImages = buildImageSet("sofa-blue-workshop", 30);
 
+// Site job, November 2026. The bookshelf-oak-maker-*.jpeg selfies are kept in
+// /public but left out of the gallery because they frame a person, not the piece.
+export const bookshelfOakImages = buildImageSet("bookshelf-oak", 2);
+export const tvConsoleGreyImages = buildImageSet("tv-console-grey", 1);
+export const bedGreyUpholsteredImages = buildImageSet("bed-grey-upholstered", 1);
+export const officeExecutiveSuiteImages = buildImageSet("office-executive-suite", 1);
+
 export const featuredVideos = [
   { id: "sofa-grey-curved-video-001", title: "Curved grey sofa walk-through", src: "/sofa-grey-curved-video-001.mp4", poster: sofaGreyCurvedImages[0] },
   { id: "sofa-grey-curved-video-002", title: "Grey sofa styling detail", src: "/sofa-grey-curved-video-002.mp4", poster: sofaGreyCurvedImages[1] },
@@ -303,6 +310,47 @@ export const showroomArchiveItems: ShowroomArchiveItem[] = [
     type: "video" as const,
     description: "A motion walkthrough showing the proportions and styling in real use.",
   })),
+  ...bookshelfOakImages.map((image, index) => ({
+    id: `archive-bookshelf-oak-${index + 1}`,
+    title: "Oak bookshelf with cabinet base",
+    category: "living-room",
+    image,
+    type: "image" as const,
+    description: "Floor-to-ceiling open shelving in a warm oak finish, over a three-door cabinet base.",
+  })),
+  ...tvConsoleGreyImages.map((image, index) => ({
+    id: `archive-tv-console-grey-${index + 1}`,
+    title: "Grey TV wall and floating console",
+    category: "living-room",
+    image,
+    type: "image" as const,
+    description: "A full-width wall panel with a long, wall-hung grey console with drawers and open bays.",
+  })),
+  ...bedGreyUpholsteredImages.map((image, index) => ({
+    id: `archive-bed-grey-upholstered-${index + 1}`,
+    title: "Grey upholstered panel bed",
+    category: "bedroom",
+    image,
+    type: "image" as const,
+    description: "A 4x6 bed frame with a tall padded headboard and a matching upholstered base.",
+  })),
+  ...officeExecutiveSuiteImages.map((image, index) => ({
+    id: `archive-office-executive-suite-${index + 1}`,
+    title: "Executive office fit-out",
+    category: "office",
+    image,
+    type: "image" as const,
+    description: "Executive desks, a back-wall storage unit and lounge seating for a working office.",
+  })),
+  ...[
+    { id: "archive-bookshelf-oak-video-1", title: "Oak bookshelf walkthrough", category: "living-room", image: "/bookshelf-oak-video-001.mp4", poster: bookshelfOakImages[0], description: "A walk around the oak bookshelf on site, from the open shelves to the cabinet doors." },
+    { id: "archive-bookshelf-oak-video-2", title: "Oak bookshelf close-up", category: "living-room", image: "/bookshelf-oak-video-002.mp4", poster: bookshelfOakImages[1], description: "A closer look at the shelf spacing, edges and handles of the oak bookshelf." },
+    { id: "archive-tv-console-grey-video-1", title: "TV wall and console walkthrough", category: "living-room", image: "/tv-console-grey-video-001.mp4", poster: tvConsoleGreyImages[0], description: "The grey floating console and wall panel, filmed just after installation." },
+    { id: "archive-tv-console-grey-video-2", title: "Floating console detail", category: "living-room", image: "/tv-console-grey-video-002.mp4", poster: tvConsoleGreyImages[0], description: "The drawers and open bays of the wall-hung grey console." },
+    { id: "archive-bed-grey-upholstered-video-1", title: "Upholstered bed walkthrough", category: "bedroom", image: "/bed-grey-upholstered-video-001.mp4", poster: bedGreyUpholsteredImages[0], description: "The 4x6 padded-headboard bed in place in the bedroom." },
+    { id: "archive-wardrobe-oak-storage-video-1", title: "Built-in oak storage wardrobe", category: "wardrobes", image: "/wardrobe-oak-storage-video-001.mp4", poster: "/wardrobe-oak-storage-poster.jpeg", description: "A full-height oak wardrobe with built-in storage shelves behind the doors." },
+    { id: "archive-store-shelves-video-1", title: "Store room shelving", category: "custom", image: "/store-shelves-video-001.mp4", poster: "/store-shelves-poster.jpeg", description: "Wall-mounted oak shelves on steel brackets, built to fit a store room." },
+  ].map((item) => ({ ...item, type: "video" as const })),
 ];
 
 export const enquiryThumbnail = (source: string) => {
@@ -422,6 +470,11 @@ export const portfolioProjects: PortfolioProject[] = [
   { id: "p-living-sectional", title: "Living room with panelled TV wall", category: "living-room", image: "/f22.png" },
   { id: "p-wall-console", title: "Floating console with lit mirror", category: "wall-pieces", image: "/f13.png" },
   { id: "p-wall-organic", title: "Lit organic mirror", category: "wall-pieces", image: "/f19.png" },
+  // Real finished jobs (November 2026 site photos).
+  { id: "p-bookshelf-oak", title: "Oak bookshelf with cabinet base", category: "living-room", image: bookshelfOakImages[0] },
+  { id: "p-tv-console-grey", title: "Grey TV wall and floating console", category: "living-room", image: tvConsoleGreyImages[0] },
+  { id: "p-bed-grey-upholstered", title: "Grey upholstered panel bed", category: "bedroom", image: bedGreyUpholsteredImages[0] },
+  { id: "p-office-executive-suite", title: "Executive office fit-out", category: "office", image: officeExecutiveSuiteImages[0] },
 ];
 
 export type Testimonial = {

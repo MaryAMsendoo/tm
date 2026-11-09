@@ -38,11 +38,11 @@ export default function AboutPage() {
         <SectionBackdrop variant="ribbon" tone="light" className="opacity-90" />
         <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:px-8 lg:py-20">
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
-            {/* Placeholder image: replace with a photo of the workshop or the founder. */}
+            {/* A real site photo, so visitors see the work being done by the team. */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--brand-cream)]">
               <Image
-                src="/f6.png"
-                alt="A fitted wardrobe with a built-in dressing table"
+                src="/bookshelf-oak-maker-001.jpeg"
+                alt="On site in front of a finished TM Artisan oak bookshelf"
                 fill
                 sizes="(min-width: 1024px) 34vw, 92vw"
                 className="object-cover"
@@ -137,9 +137,20 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-10 max-w-2xl border-t border-[var(--brand-gold)]/60 pt-6">
-              <p className="font-display text-2xl font-semibold text-[var(--brand-ivory)]">
-                {ceoMessage.name}
-              </p>
+              <div className="flex items-center gap-4">
+                {ceoMessage.portrait ? (
+                  <Image
+                    src={ceoMessage.portrait}
+                    alt={ceoMessage.name}
+                    width={64}
+                    height={64}
+                    className="h-16 w-16 shrink-0 rounded-full border border-[var(--brand-gold)]/60 object-cover object-top"
+                  />
+                ) : null}
+                <p className="font-display text-2xl font-semibold text-[var(--brand-ivory)]">
+                  {ceoMessage.name}
+                </p>
+              </div>
               <p className="mt-1 text-sm text-[rgba(247,241,230,0.72)]">
                 {ceoMessage.role}
               </p>

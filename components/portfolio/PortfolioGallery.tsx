@@ -29,7 +29,7 @@ const portfolioMedia = portfolioProjects.flatMap((project, index) => {
         {
           id: video.id,
           title: video.title,
-          category: "sofas",
+          category: video.category,
           src: video.src,
           type: "video" as const,
         },

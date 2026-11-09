@@ -50,6 +50,8 @@ export const ceoMessage = {
   company: "TM Artisan Company Ltd",
   sign: "Built to Belong.",
   photo: "/ceo-tm.jpeg",
+  // Small round portrait shown beside the signature.
+  portrait: "/ceo-tm.png",
 };
 
 // Draft copy for the owner to approve. Built from what the brief already says
@@ -171,23 +173,38 @@ const buildImageSet = (baseName: string, count: number) =>
 
 export const wardrobeWarmWoodImages = buildImageSet("wardrobe-warm-wood", 23);
 export const wardrobeSagePanelImages = buildImageSet("wardrobe-sage-panel", 41);
-export const sofaGreyCurvedImages = buildImageSet("sofa-grey-curved", 13);
+export const sofaGreyCurvedImages = buildImageSet("sofa-grey-curved", 12);
 export const sofaRedTuftedImages = buildImageSet("sofa-red-tufted", 6);
-export const sofaBlueWorkshopImages = buildImageSet("sofa-blue-workshop", 30);
+export const sofaBlueWorkshopImages = buildImageSet("sofa-blue-workshop", 29);
+export const kitchenCollectionImages = buildImageSet("kitchen-collection", 20);
+export const kitchenTealSiteImages = buildImageSet("kitchen-teal-site", 1);
 
-// Site job, November 2026. The bookshelf-oak-maker-*.jpeg selfies are kept in
-// /public but left out of the gallery because they frame a person, not the piece.
+// Site job, November 2026.
 export const bookshelfOakImages = buildImageSet("bookshelf-oak", 2);
+export const bookshelfOakMakerImages = buildImageSet("bookshelf-oak-maker", 3);
 export const tvConsoleGreyImages = buildImageSet("tv-console-grey", 1);
 export const bedGreyUpholsteredImages = buildImageSet("bed-grey-upholstered", 1);
 export const officeExecutiveSuiteImages = buildImageSet("office-executive-suite", 1);
 
-export const featuredVideos = [
-  { id: "sofa-grey-curved-video-001", title: "Curved grey sofa walk-through", src: "/sofa-grey-curved-video-001.mp4", poster: sofaGreyCurvedImages[0] },
-  { id: "sofa-grey-curved-video-002", title: "Grey sofa styling detail", src: "/sofa-grey-curved-video-002.mp4", poster: sofaGreyCurvedImages[1] },
-  { id: "sofa-grey-curved-video-003", title: "Sofa feature showcase", src: "/sofa-grey-curved-video-003.mp4", poster: sofaGreyCurvedImages[2] },
-  { id: "sofa-grey-curved-video-004", title: "Sofa in living space", src: "/v1.mp4", poster: "/f22.png" },
-  { id: "sofa-grey-curved-video-005", title: "Sofa with accent lighting", src: "/v2.mp4", poster: sofaGreyCurvedImages[3] },
+/** Still frame saved next to a video that has no matching photo. */
+const videoPoster = (src: string) => src.replace(/\.mp4$/, "-poster.jpeg");
+
+export type FeaturedVideo = {
+  id: string;
+  title: string;
+  category: string; // a Category slug
+  src: string;
+  poster: string;
+};
+
+// Paired with portfolio projects on the home page and /portfolio.
+// Index 3 is also the home hero background.
+export const featuredVideos: FeaturedVideo[] = [
+  { id: "wardrobe-white-gloss-video-001", title: "White gloss wardrobe with shoe shelves", category: "wardrobes", src: "/wardrobe-white-gloss-video-001.mp4", poster: videoPoster("/wardrobe-white-gloss-video-001.mp4") },
+  { id: "wardrobe-install-video-003", title: "Our team fitting a wardrobe wall", category: "wardrobes", src: "/wardrobe-install-video-003.mp4", poster: videoPoster("/wardrobe-install-video-003.mp4") },
+  { id: "sofa-grey-curved-video-001", title: "Curved sofa set in a living room", category: "sofas", src: "/sofa-grey-curved-video-001.mp4", poster: videoPoster("/sofa-grey-curved-video-001.mp4") },
+  { id: "kitchen-install-video-001", title: "Kitchen cabinets being installed", category: "kitchen", src: "/kitchen-install-video-001.mp4", poster: videoPoster("/kitchen-install-video-001.mp4") },
+  { id: "kitchen-install-video-002", title: "Fitting kitchen wall cabinets", category: "kitchen", src: "/kitchen-install-video-002.mp4", poster: videoPoster("/kitchen-install-video-002.mp4") },
 ];
 
 export const categories: Category[] = [
@@ -290,26 +307,44 @@ export const showroomArchiveItems: ShowroomArchiveItem[] = [
       description: "Crafted to order for a personalised room, finish and layout.",
     };
   }),
-  ...[
-    "/sofa-grey-curved-video-001.mp4",
-    "/sofa-grey-curved-video-002.mp4",
-    "/sofa-grey-curved-video-003.mp4",
-    "/sofa-grey-curved-video-004.mp4",
-    "/sofa-grey-curved-video-005.mp4",
-    "/sofa-grey-curved-video-006.mp4",
-    "/sofa-grey-curved-video-007.mp4",
-    "/sofa-grey-curved-video-008.mp4",
-    "/sofa-grey-curved-video-009.mp4",
-    "/sofa-grey-curved-video-010.mp4",
-  ].map((video, index) => ({
-    id: `archive-video-${index + 1}`,
-    title: "Curved sofa walkthrough",
-    category: "sofas",
-    image: video,
-    poster: sofaGreyCurvedImages[index % sofaGreyCurvedImages.length],
-    type: "video" as const,
-    description: "A motion walkthrough showing the proportions and styling in real use.",
+  ...kitchenCollectionImages.map((image, index) => ({
+    id: `archive-kitchen-collection-${index + 1}`,
+    title: "Fitted kitchen",
+    category: "kitchen",
+    image,
+    type: "image" as const,
+    description: "A fitted kitchen with full-height cabinets, worktops and storage planned around the room.",
   })),
+  ...kitchenTealSiteImages.map((image, index) => ({
+    id: `archive-kitchen-teal-site-${index + 1}`,
+    title: "Teal kitchen, finished on site",
+    category: "kitchen",
+    image,
+    type: "image" as const,
+    description: "A dark teal kitchen with white wall cabinets, photographed on site at handover.",
+  })),
+  ...bookshelfOakMakerImages.map((image, index) => ({
+    id: `archive-bookshelf-oak-maker-${index + 1}`,
+    title: "On site with the oak bookshelf",
+    category: "living-room",
+    image,
+    type: "image" as const,
+    description: "Taken on the day of installation, in front of the finished oak bookshelf.",
+  })),
+  ...[
+    { id: "archive-wardrobe-white-gloss-video-1", title: "White gloss wardrobe with shoe shelves", category: "wardrobes", image: "/wardrobe-white-gloss-video-001.mp4", description: "A finished white gloss wardrobe with long black handles and open shoe shelving." },
+    { id: "archive-wardrobe-white-gloss-video-2", title: "White gloss wardrobe with drawers", category: "wardrobes", image: "/wardrobe-white-gloss-video-002.mp4", description: "A white wardrobe with open shelves, a drawer unit and a dressing niche." },
+    { id: "archive-wardrobe-white-gloss-video-3", title: "White gloss wardrobe wall", category: "wardrobes", image: "/wardrobe-white-gloss-video-003.mp4", description: "A full walkthrough of a finished white wardrobe wall, door by door." },
+    { id: "archive-wardrobe-install-video-1", title: "Wardrobe wall during installation", category: "wardrobes", image: "/wardrobe-install-video-001.mp4", description: "Full-height wardrobe doors fitted on site, still in their protective film." },
+    { id: "archive-wardrobe-install-video-2", title: "Wardrobe and shoe rack installation", category: "wardrobes", image: "/wardrobe-install-video-002.mp4", description: "A wardrobe with a built-in shoe rack, filmed during installation." },
+    { id: "archive-wardrobe-install-video-3", title: "Our team fitting a wardrobe wall", category: "wardrobes", image: "/wardrobe-install-video-003.mp4", description: "TM Artisan carpenters at work, fitting a full-height wardrobe wall on site." },
+    { id: "archive-sofa-grey-curved-video-1", title: "Curved sofa set in a living room", category: "sofas", image: "/sofa-grey-curved-video-001.mp4", description: "A curved sofa set in place in a client's living room." },
+    { id: "archive-armchair-red-tufted-video-1", title: "Red tufted armchair", category: "sofas", image: "/armchair-red-tufted-video-001.mp4", poster: sofaRedTuftedImages[5], description: "A deep-buttoned red armchair, filmed outside the workshop." },
+    { id: "archive-chairs-gilded-video-1", title: "Gilded chairs ready for delivery", category: "sofas", image: "/chairs-gilded-video-001.mp4", description: "Carved, gold-finished chairs wrapped and ready to leave the workshop." },
+    { id: "archive-kitchen-install-video-1", title: "Kitchen cabinets being installed", category: "kitchen", image: "/kitchen-install-video-001.mp4", description: "Our carpenter fitting kitchen wall and base cabinets on site." },
+    { id: "archive-kitchen-install-video-2", title: "Fitting kitchen wall cabinets", category: "kitchen", image: "/kitchen-install-video-002.mp4", description: "Kitchen wall cabinets going up, step by step, during installation." },
+    { id: "archive-kitchen-teal-site-video-1", title: "Teal kitchen handover", category: "kitchen", image: "/kitchen-teal-site-video-001.mp4", poster: kitchenTealSiteImages[0], description: "The finished teal kitchen, filmed on site at handover." },
+  ].map((item) => ({ poster: videoPoster(item.image), ...item, type: "video" as const })),
   ...bookshelfOakImages.map((image, index) => ({
     id: `archive-bookshelf-oak-${index + 1}`,
     title: "Oak bookshelf with cabinet base",
@@ -475,6 +510,7 @@ export const portfolioProjects: PortfolioProject[] = [
   { id: "p-tv-console-grey", title: "Grey TV wall and floating console", category: "living-room", image: tvConsoleGreyImages[0] },
   { id: "p-bed-grey-upholstered", title: "Grey upholstered panel bed", category: "bedroom", image: bedGreyUpholsteredImages[0] },
   { id: "p-office-executive-suite", title: "Executive office fit-out", category: "office", image: officeExecutiveSuiteImages[0] },
+  { id: "p-kitchen-teal-site", title: "Teal kitchen, finished on site", category: "kitchen", image: kitchenTealSiteImages[0] },
 ];
 
 export type Testimonial = {

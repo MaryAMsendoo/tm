@@ -1,13 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { enquiryThumbnail } from "../../lib/data";
 
 export function PreviewVideo({
   src,
   className,
+  poster = enquiryThumbnail(src),
 }: {
   src: string;
   className: string;
+  /** Still shown until the video can play. Defaults to the video's known poster. */
+  poster?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const inViewRef = useRef(false);
@@ -45,6 +49,7 @@ export function PreviewVideo({
     <video
       ref={videoRef}
       src={src}
+      poster={poster}
       muted
       loop
       playsInline

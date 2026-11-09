@@ -36,7 +36,7 @@ export function PortfolioTeaser() {
           {
             id: video.id,
             title: video.title,
-            category: "sofas",
+            category: video.category,
             src: video.src,
             type: "video" as const,
           },

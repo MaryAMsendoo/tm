@@ -398,6 +398,7 @@ export function ShopView() {
                 {showroomView.type === "video" ? (
                   <video
                     src={showroomView.image}
+                    poster={showroomView.poster}
                     autoPlay
                     muted
                     loop

@@ -80,7 +80,7 @@ export function Hero() {
           ) : (
             <video
               src={featuredVideos[3].src}
-              poster={heroSlides[0].image}
+              poster={featuredVideos[3].poster}
               autoPlay
               muted
               loop

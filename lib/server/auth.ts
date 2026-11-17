@@ -4,6 +4,7 @@ import { createHash, randomBytes } from "node:crypto";
 import { and, eq, gt, lt } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { cache } from "react";
 import { db } from "../../db";
 import { adminSessions, adminUsers } from "../../db/schema";
@@ -50,6 +51,8 @@ export const getSession = cache(async (): Promise<AdminSession | null> => {
   const token = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!token) return null;
 
+  // Reading the clock below must happen at request time, never in a prerender.
+  await connection();
   const [row] = await db
     .select({ userId: adminUsers.id, username: adminUsers.username })
     .from(adminSessions)

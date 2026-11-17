@@ -5,44 +5,24 @@ import Link from "next/link";
 import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight, Check, Plus } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { categories, featuredVideos, portfolioProjects } from "../../lib/data";
+import type { PortfolioItem } from "../../lib/types";
+import { imageUrl } from "../../lib/media";
 import { useEnquiry } from "../../context/EnquiryContext";
+import { useCategories } from "../../context/SiteContext";
 import { PreviewVideo } from "../ui/PreviewVideo";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
 import { WordReveal } from "../ui/WordReveal";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const label = (slug: string) =>
-  categories.find((c) => c.slug === slug)?.label ?? "";
+/** How many portfolio items the home page shows. */
+const TEASER_COUNT = 16;
 
-export function PortfolioTeaser() {
+export function PortfolioTeaser({ items }: { items: PortfolioItem[] }) {
   const { has, toggle } = useEnquiry();
-  const projects = portfolioProjects.slice(0, 11);
-  const mediaItems = projects.flatMap((project, index) => {
-    const imageItem = {
-      id: project.id,
-      title: project.title,
-      category: project.category,
-      location: project.location,
-      src: project.image,
-      type: "image" as const,
-    };
-    const video = featuredVideos[index];
-
-    return video
-      ? [
-          imageItem,
-          {
-            id: video.id,
-            title: video.title,
-            category: video.category,
-            src: video.src,
-            type: "video" as const,
-          },
-        ]
-      : [imageItem];
-  });
+  const categories = useCategories();
+  const label = (slug: string) => categories.find((c) => c.slug === slug)?.label ?? "";
+  const mediaItems = items.slice(0, TEASER_COUNT);
 
   return (
     <MotionConfig reducedMotion="user">
@@ -86,6 +66,7 @@ export function PortfolioTeaser() {
                   {item.type === "video" ? (
                     <PreviewVideo
                       src={item.src}
+                      poster={item.poster}
                       className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
                     />
                   ) : (
@@ -118,7 +99,7 @@ export function PortfolioTeaser() {
                         toggle({
                           id: item.id,
                           name: item.title,
-                          image: item.src,
+                          image: imageUrl(item.type === "video" ? (item.poster ?? "") : item.src, 800),
                           category: categoryName,
                         })
                       }

@@ -4,17 +4,19 @@ import { useState } from "react";
 import { Mail } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import { activeCategories, siteConfig } from "../../lib/data";
-import { whatsappUrl } from "../../lib/whatsapp";
+import type { Category } from "../../lib/types";
+import { useRequest } from "../../context/RequestContext";
+import { useSite } from "../../context/SiteContext";
 
 const field =
   "w-full rounded-xl border border-[rgba(77,45,36,0.25)] bg-transparent px-4 py-3 text-sm text-(--brand-wood) placeholder:text-(--text-subtle) focus:border-(--brand-gold) focus:outline-none focus:ring-2 focus:ring-(--brand-gold)/40";
 
-export function CustomRequestForm() {
+export function CustomRequestForm({ categories: activeCategories }: { categories: Category[] }) {
+  const siteConfig = useSite();
+  const { request } = useRequest();
   const [piece, setPiece] = useState("");
   const [size, setSize] = useState("");
   const [details, setDetails] = useState("");
-  const [name, setName] = useState("");
 
   const ready = details.trim().length > 0;
 
@@ -24,16 +26,14 @@ export function CustomRequestForm() {
     `Piece: ${piece || "Not sure yet"}`,
     size.trim() && `Size: ${size.trim()}`,
     `Details: ${details.trim()}`,
-    name.trim() && `Name: ${name.trim()}`,
     "",
     "I will send photos or drawings in this chat.",
   ]
     .filter((line): line is string => typeof line === "string" && line.length > 0)
     .join("\n");
 
-  const mailto = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-    "Custom piece request",
-  )}&body=${encodeURIComponent(text)}`;
+  const send = (channel: "whatsapp" | "email") =>
+    request({ channel, kind: "custom", message: text, subject: "Custom piece request" });
 
   const disabled = !ready && "pointer-events-none opacity-50";
 
@@ -73,18 +73,11 @@ export function CustomRequestForm() {
         />
       </label>
 
-      <label className="block">
-        <span className="mb-1.5 block text-sm text-(--text-muted)">Your name (optional)</span>
-        <input value={name} onChange={(e) => setName(e.target.value)} className={field} />
-      </label>
-
       <div className="flex flex-wrap items-center gap-x-7 gap-y-4 pt-2">
-        <a
-          href={whatsappUrl(text)}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-disabled={!ready}
-          tabIndex={ready ? 0 : -1}
+        <button
+          type="button"
+          onClick={() => send("whatsapp")}
+          disabled={!ready}
           className={cn(
             "inline-flex items-center gap-2 rounded-full bg-(--brand-wood) px-6 py-3 text-sm font-medium text-(--brand-ivory) transition hover:bg-(--brand-wood-deep) focus:outline-none focus-visible:ring-2 focus-visible:ring-(--brand-gold) focus-visible:ring-offset-2",
             disabled,
@@ -92,11 +85,12 @@ export function CustomRequestForm() {
         >
           <FaWhatsapp size={17} />
           Send on WhatsApp
-        </a>
-        <a
-          href={mailto}
-          aria-disabled={!ready}
-          tabIndex={ready ? 0 : -1}
+        </button>
+        {siteConfig.email && (
+        <button
+          type="button"
+          onClick={() => send("email")}
+          disabled={!ready}
           className={cn(
             "group inline-flex items-center gap-2 text-sm font-medium text-(--brand-wood)",
             disabled,
@@ -106,7 +100,8 @@ export function CustomRequestForm() {
           <span className="border-b border-(--brand-gold) pb-0.5 transition group-hover:border-(--brand-wood)">
             Send by email
           </span>
-        </a>
+        </button>
+        )}
       </div>
     </div>
   );

@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { products } from "../../lib/data";
+import type { Product } from "../../lib/types";
 import { ProductCard } from "../shop/ProductCard";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
 import { WordReveal } from "../ui/WordReveal";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export function FeaturedPieces() {
+export function FeaturedPieces({ products }: { products: Product[] }) {
   const featured = products.filter((p) => p.featured);
 
   return (

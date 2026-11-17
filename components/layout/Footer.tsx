@@ -11,13 +11,11 @@ import {
   FaYoutube,
 } from "react-icons/fa6";
 import type { IconType } from "react-icons";
-import {
-  categories,
-  navLinks,
-  siteConfig,
-  type SocialKey,
-} from "../../lib/data";
+import { BRAND_LOGO } from "../../lib/brand";
+import { getActiveCategories, getSettings } from "../../lib/server/content";
+import { navLinks, type SocialKey } from "../../lib/types";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
+import { CurrentYear } from "../ui/CurrentYear";
 
 const socialIcons: Record<SocialKey, IconType> = {
   facebook: FaFacebookF,
@@ -31,7 +29,8 @@ const socialIcons: Record<SocialKey, IconType> = {
 const linkClass =
   "text-[var(--about-text)]/70 transition-colors hover:text-[var(--brand-gold)]";
 
-export function Footer() {
+export async function Footer() {
+  const [siteConfig, categories] = await Promise.all([getSettings("site"), getActiveCategories()]);
   const socials = siteConfig.socials.filter((s) => s.href);
 
   return (
@@ -50,7 +49,7 @@ export function Footer() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <a
-              href={generalWhatsappUrl()}
+              href={generalWhatsappUrl(siteConfig)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand-gold)] px-7 py-3.5 text-sm font-medium text-[#2f1b16] transition hover:bg-[var(--brand-gold-deep)]"
@@ -73,7 +72,7 @@ export function Footer() {
         <div>
           <Link href="/" className="inline-flex items-center gap-3">
             <Image
-              src={siteConfig.logo}
+              src={BRAND_LOGO}
               alt={`${siteConfig.name} logo`}
               width={48}
               height={48}
@@ -156,15 +155,17 @@ export function Footer() {
                 </a>
               </li>
             ))}
-            <li className="flex gap-3">
-              <Mail
-                size={17}
-                className="mt-0.5 shrink-0 text-[var(--brand-gold)]"
-              />
-              <a href={`mailto:${siteConfig.email}`} className={linkClass}>
-                {siteConfig.email}
-              </a>
-            </li>
+            {siteConfig.email && (
+              <li className="flex gap-3">
+                <Mail
+                  size={17}
+                  className="mt-0.5 shrink-0 text-[var(--brand-gold)]"
+                />
+                <a href={`mailto:${siteConfig.email}`} className={linkClass}>
+                  {siteConfig.email}
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -172,7 +173,7 @@ export function Footer() {
       <div className="border-t border-[var(--about-text)]/15">
         <div className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-6 text-xs text-[var(--about-text)]/60 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <p>
-            © {new Date().getFullYear()} {siteConfig.name}. All rights
+            © <CurrentYear /> {siteConfig.name}. All rights
             reserved.
           </p>
           <p>Made in Abuja, Nigeria.</p>

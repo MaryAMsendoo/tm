@@ -3,11 +3,13 @@
 import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa6";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
+import { useSite } from "../../context/SiteContext";
 
 export function WhatsAppFab() {
+  const site = useSite();
   return (
     <motion.a
-      href={generalWhatsappUrl()}
+      href={generalWhatsappUrl(site)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"

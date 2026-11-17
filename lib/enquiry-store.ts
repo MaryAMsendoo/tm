@@ -11,7 +11,8 @@ export type EnquiryItem = {
   category?: string;
 };
 
-const STORAGE_KEY = "tm-enquiry-list";
+// v2: items now come from the database (new ids, Cloudinary images); older lists are dropped.
+const STORAGE_KEY = "tm-enquiry-list-v2";
 const EMPTY: EnquiryItem[] = [];
 
 let items: EnquiryItem[] = EMPTY;

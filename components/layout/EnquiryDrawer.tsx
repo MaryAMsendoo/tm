@@ -7,11 +7,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Mail, Trash2, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { useEnquiry } from "../../context/EnquiryContext";
-import { enquiryThumbnail } from "../../lib/data";
-import { enquiryEmailUrl, enquiryWhatsappUrl } from "../../lib/whatsapp";
+import { useRequest } from "../../context/RequestContext";
+import { useSite } from "../../context/SiteContext";
+import { quoteListText } from "../../lib/whatsapp";
 
 export function EnquiryDrawer() {
   const { items, count, isOpen, close, remove, clear } = useEnquiry();
+  const site = useSite();
+  const { request } = useRequest();
+
+  const send = (channel: "whatsapp" | "email") => {
+    request({
+      channel,
+      kind: "quote_list",
+      items: items.map(({ id, name, category, image }) => ({ id, name, category, image })),
+      message: quoteListText(site, items),
+      subject: `Quote request: ${count} item${count === 1 ? "" : "s"}`,
+    });
+    close();
+  };
 
   useEffect(() => {
     if (!isOpen) return;
@@ -101,7 +115,7 @@ export function EnquiryDrawer() {
                     >
                       <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-[var(--brand-cream)]">
                         <Image
-                          src={enquiryThumbnail(item.image)}
+                          src={item.image}
                           alt={item.name}
                           fill
                           sizes="80px"
@@ -143,22 +157,24 @@ export function EnquiryDrawer() {
                 and we&apos;ll reply with prices.
               </p>
               <div className="flex flex-col gap-2.5">
-                <a
-                  href={enquiryWhatsappUrl(items)}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() => send("whatsapp")}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand-gold)] px-5 py-3 text-sm font-medium text-[var(--brand-wood-deep)] shadow-[0_10px_25px_rgba(201,166,106,0.25)] transition hover:bg-[var(--brand-gold-deep)]"
                 >
                   <FaWhatsapp size={18} />
                   Send on WhatsApp
-                </a>
-                <a
-                  href={enquiryEmailUrl(items)}
+                </button>
+                {site.email && (
+                <button
+                  type="button"
+                  onClick={() => send("email")}
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-[rgba(77,45,36,0.25)] px-5 py-3 text-sm font-medium text-[var(--brand-wood)] transition hover:bg-[rgba(77,45,36,0.04)]"
                 >
                   <Mail size={17} />
                   Send by email
-                </a>
+                </button>
+                )}
                 <button
                   type="button"
                   onClick={clear}

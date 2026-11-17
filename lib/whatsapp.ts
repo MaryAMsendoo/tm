@@ -1,26 +1,30 @@
-import { siteConfig } from "./data";
 import type { EnquiryItem } from "./enquiry-store";
+import type { SiteSettings } from "./types";
 
-export function whatsappUrl(text: string) {
-  const number = siteConfig.whatsapp.replace(/\D/g, "");
+type Site = Pick<SiteSettings, "whatsapp" | "shortName" | "email">;
+
+export function whatsappUrl(site: Site, text: string) {
+  const number = site.whatsapp.replace(/\D/g, "");
   return `https://wa.me/${number}?text=${encodeURIComponent(text)}`;
 }
 
-export function generalWhatsappUrl() {
-  return whatsappUrl(
-    `Hello ${siteConfig.shortName}, I'd like to request a quote.`,
-  );
+export function emailUrl(site: Site, subject: string, body: string) {
+  return `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
 
-/** One product: use this for the "Ask on WhatsApp" button on a product card. */
-export function productWhatsappUrl(item: Pick<EnquiryItem, "name" | "category">) {
+/** Plain "chat with us" link, used where no request is being made. */
+export function generalWhatsappUrl(site: Site) {
+  return whatsappUrl(site, `Hello ${site.shortName}, I'd like to request a quote.`);
+}
+
+/** Message for one product: the "WhatsApp" button on a product card. */
+export function productEnquiryText(site: Site, item: Pick<EnquiryItem, "name" | "category">) {
   const cat = item.category ? ` (${item.category})` : "";
-  return whatsappUrl(
-    `Hello ${siteConfig.shortName}, I'd like a quote for the ${item.name}${cat}. Is it available?`,
-  );
+  return `Hello ${site.shortName}, I'd like a quote for the ${item.name}${cat}. Is it available?`;
 }
 
-export function buildEnquiryText(items: EnquiryItem[]) {
+/** Message for the whole quote list. */
+export function quoteListText(site: Site, items: EnquiryItem[]) {
   const lines = items.map((item, i) => {
     const entry = `${i + 1}. ${item.name}${item.category ? ` (${item.category})` : ""}`;
     if (!item.image) return entry;
@@ -34,7 +38,7 @@ export function buildEnquiryText(items: EnquiryItem[]) {
   });
 
   return [
-    `Hello ${siteConfig.shortName},`,
+    `Hello ${site.shortName},`,
     "I'd like to request a quote for the following pieces:",
     "",
     ...lines,
@@ -42,13 +46,4 @@ export function buildEnquiryText(items: EnquiryItem[]) {
     "Please share the price, finish options and availability for each item.",
     "Thank you.",
   ].join("\n");
-}
-
-export function enquiryWhatsappUrl(items: EnquiryItem[]) {
-  return whatsappUrl(buildEnquiryText(items));
-}
-
-export function enquiryEmailUrl(items: EnquiryItem[]) {
-  const subject = `Quote request: ${items.length} item${items.length === 1 ? "" : "s"}`;
-  return `mailto:${siteConfig.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(buildEnquiryText(items))}`;
 }

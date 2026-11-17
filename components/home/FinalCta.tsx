@@ -2,14 +2,15 @@
 
 import { MotionConfig, motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa6";
-import { siteConfig } from "../../lib/data";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
+import { useSite } from "../../context/SiteContext";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
 import { WordReveal } from "../ui/WordReveal";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function FinalCta() {
+  const siteConfig = useSite();
   const phone = siteConfig.phones[0];
 
   return (
@@ -38,7 +39,7 @@ export function FinalCta() {
 
             <div className="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
               <a
-                href={generalWhatsappUrl()}
+                href={generalWhatsappUrl(siteConfig)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-gold)] px-7 py-3.5 text-sm font-medium text-[var(--brand-wood-deep)] transition hover:brightness-105 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-ivory)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-wood-deep)]"
@@ -47,6 +48,7 @@ export function FinalCta() {
                 Message us on WhatsApp
               </a>
 
+              {siteConfig.email && (
               <a
                 href={`mailto:${siteConfig.email}`}
                 className="group text-sm font-medium text-[var(--brand-ivory)]"
@@ -55,6 +57,7 @@ export function FinalCta() {
                   Email us
                 </span>
               </a>
+              )}
 
               {phone && (
                 <a

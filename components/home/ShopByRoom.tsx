@@ -5,19 +5,19 @@ import Link from "next/link";
 import { MotionConfig, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { activeCategories, products } from "../../lib/data";
+import type { Category, Product } from "../../lib/types";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
 import { WordReveal } from "../ui/WordReveal";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const tiles = activeCategories.map((c) => {
-  const inCategory = products.filter((p) => p.category === c.slug);
-  const cover = inCategory.find((p) => p.featured) ?? inCategory[0];
-  return { ...c, count: inCategory.length, image: cover.images[0] };
-});
+export function ShopByRoom({ categories, products }: { categories: Category[]; products: Product[] }) {
+  const tiles = categories.flatMap((c) => {
+    const inCategory = products.filter((p) => p.category === c.slug);
+    const cover = inCategory.find((p) => p.featured) ?? inCategory[0];
+    return cover ? [{ ...c, count: inCategory.length, image: cover.images[0] }] : [];
+  });
 
-export function ShopByRoom() {
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden">

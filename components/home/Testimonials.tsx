@@ -4,14 +4,20 @@ import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { testimonials } from "../../lib/data";
+import type { Testimonial } from "../../lib/types";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
 import { WordReveal } from "../ui/WordReveal";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const pad = (n: number) => String(n).padStart(2, "0");
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
 
-export function Testimonials() {
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   const [index, setIndex] = useState(0);
   const total = testimonials.length;
   if (total === 0) return null;
@@ -53,13 +59,19 @@ export function Testimonials() {
                     </blockquote>
                     <figcaption className="mt-6 flex items-center gap-4 text-base text-[var(--text-muted)]">
                       <div className="h-12 w-12 overflow-hidden rounded-full ring-2 ring-[var(--brand-gold)]">
-                        <Image
-                          src={t.avatar ?? "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80"}
-                          alt={t.name}
-                          width={48}
-                          height={48}
-                          className="h-full w-full object-cover"
-                        />
+                        {t.avatar ? (
+                          <Image
+                            src={t.avatar}
+                            alt={t.name}
+                            width={48}
+                            height={48}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <span aria-hidden="true" className="flex h-full w-full items-center justify-center bg-[var(--brand-cream)] font-display text-lg text-[var(--brand-wood)]">
+                            {initials(t.name)}
+                          </span>
+                        )}
                       </div>
                       <div>
                         <span className="block font-medium text-[var(--brand-wood)]">

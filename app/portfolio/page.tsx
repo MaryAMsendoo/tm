@@ -2,13 +2,15 @@ import type { Metadata } from "next";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
 import { PortfolioGallery } from "../../components/portfolio/PortfolioGallery";
+import { getPortfolio } from "../../lib/server/content";
 
 export const metadata: Metadata = {
   title: "Portfolio",
   description: "Kitchens, wardrobes, TV walls and wall pieces built by TM Artisan in Abuja.",
 };
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const items = await getPortfolio();
   return (
     <>
       <PageHeader
@@ -19,7 +21,7 @@ export default function PortfolioPage() {
       <section className="relative overflow-clip">
         <SectionBackdrop variant="dune" tone="light" className="opacity-90" />
         <div className="relative mx-auto max-w-7xl px-5 pb-20 pt-4 lg:px-8 lg:pb-28">
-          <PortfolioGallery />
+          <PortfolioGallery items={items} />
         </div>
       </section>
     </>

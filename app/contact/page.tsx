@@ -4,7 +4,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { Reveal } from "../../components/ui/Reveal";
 import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
-import { siteConfig } from "../../lib/data";
+import { getSettings } from "../../lib/server/content";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
 
 export const metadata: Metadata = {
@@ -16,9 +16,10 @@ export const metadata: Metadata = {
 const showPhone = (p: string) =>
   p.replace(/^\+234(\d{3})(\d{3})(\d{4})$/, "0$1 $2 $3");
 
-const query = encodeURIComponent("Gosa, Airport Road, Abuja");
+export default async function ContactPage() {
+  const siteConfig = await getSettings("site");
+  const query = encodeURIComponent(siteConfig.address);
 
-export default function ContactPage() {
   return (
     <>
       <PageHeader
@@ -69,7 +70,7 @@ export default function ContactPage() {
             </dl>
 
             <a
-              href={generalWhatsappUrl()}
+              href={generalWhatsappUrl(siteConfig)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-10 inline-flex items-center gap-2 rounded-full bg-[var(--brand-wood)] px-7 py-3.5 text-sm font-medium text-[var(--brand-ivory)] transition hover:bg-[var(--brand-wood-deep)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-gold)] focus-visible:ring-offset-2"

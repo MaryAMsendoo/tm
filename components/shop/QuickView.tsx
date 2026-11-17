@@ -6,9 +6,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Check, Plus, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import { categories, type Product } from "../../lib/data";
-import { productWhatsappUrl } from "../../lib/whatsapp";
+import type { Product } from "../../lib/types";
+import { productEnquiryText } from "../../lib/whatsapp";
 import { useEnquiry } from "../../context/EnquiryContext";
+import { useRequest } from "../../context/RequestContext";
+import { useCategoryLabel, useSite } from "../../context/SiteContext";
+import { imageUrl } from "../../lib/media";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -20,11 +23,12 @@ export function QuickView({
   onClose: () => void;
 }) {
   const { has, toggle } = useEnquiry();
-  const [active, setActive] = useState(0);
+  // The selected photo is remembered per product, so opening another product starts at its first photo.
+  const [gallery, setGallery] = useState<{ id?: string; index: number }>({ index: 0 });
+  const active = gallery.id === product?.id ? gallery.index : 0;
+  const setActive = (index: number) => setGallery({ id: product?.id, index });
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  // Reset the gallery for each product.
-  useEffect(() => setActive(0), [product?.id]);
 
   // Escape to close, lock page scroll while open, focus the close button.
   useEffect(() => {
@@ -40,9 +44,9 @@ export function QuickView({
     };
   }, [product, onClose]);
 
-  const categoryLabel = product
-    ? categories.find((c) => c.slug === product.category)?.label
-    : undefined;
+  const site = useSite();
+  const { request } = useRequest();
+  const categoryLabel = useCategoryLabel(product?.category);
   const added = product ? has(product.id) : false;
 
   return (
@@ -181,17 +185,23 @@ export function QuickView({
                     {added ? "Added to enquiry" : "Add to enquiry"}
                   </button>
 
-                  <a
-                    href={productWhatsappUrl({ name: product.name, category: categoryLabel })}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    type="button"
+                    onClick={() =>
+                      request({
+                        channel: "whatsapp",
+                        kind: "single_item",
+                        items: [{ id: product.id, name: product.name, category: categoryLabel, image: imageUrl(product.images[0], 800) }],
+                        message: productEnquiryText(site, { name: product.name, category: categoryLabel }),
+                      })
+                    }
                     className="group inline-flex min-h-11 w-full items-center justify-center gap-2 text-sm font-medium text-[var(--brand-wood)] sm:w-auto"
                   >
                     <FaWhatsapp size={17} />
                     <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
                       Ask on WhatsApp
                     </span>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

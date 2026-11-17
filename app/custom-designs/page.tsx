@@ -3,7 +3,8 @@ import { PageHeader } from "../../components/ui/PageHeader";
 import { Reveal } from "../../components/ui/Reveal";
 import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
 import { CustomRequestForm } from "../../components/custom/CustomRequestForm";
-import { customOptions, otherServices } from "../../lib/data";
+import { customOptions, otherServices } from "../../lib/static-content";
+import { getActiveCategories } from "../../lib/server/content";
 
 export const metadata: Metadata = {
   title: "Custom designs",
@@ -11,7 +12,8 @@ export const metadata: Metadata = {
     "Furniture made to your size, colour and finish in Abuja. Send a photo, a sketch or your measurements.",
 };
 
-export default function CustomDesignsPage() {
+export default async function CustomDesignsPage() {
+  const categories = await getActiveCategories();
   return (
     <>
       <PageHeader
@@ -63,7 +65,7 @@ export default function CustomDesignsPage() {
             </p>
           </Reveal>
           <Reveal delay={0.1}>
-            <CustomRequestForm />
+            <CustomRequestForm categories={categories} />
           </Reveal>
         </div>
       </section>

@@ -13,13 +13,14 @@ import {
 import { Check, ChevronLeft, ChevronRight, Plus } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import { featuredVideos, heroBrand, heroSlides } from "../../lib/data";
+import type { HeroSettings, HeroSlide } from "../../lib/types";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
+import { imageUrl } from "../../lib/media";
 import { useEnquiry } from "../../context/EnquiryContext";
+import { useSite } from "../../context/SiteContext";
 
 const SLIDE_MS = 6000;
 const EASE = [0.22, 1, 0.36, 1] as const;
-const TOTAL = heroSlides.length;
 
 // Brand block: plays once on page load, then stays put.
 const brandGroup: Variants = {
@@ -44,13 +45,15 @@ const productLine: Variants = {
   exit: { opacity: 0, y: -10, transition: { duration: 0.2 } },
 };
 
-export function Hero() {
+export function Hero({ brand: heroBrand, slides: heroSlides }: { brand: HeroSettings; slides: HeroSlide[] }) {
+  const site = useSite();
+  const TOTAL = Math.max(heroSlides.length, 1);
   const [index, setIndex] = useState(0);
   const reduceMotion = useReducedMotion();
   const { has, toggle } = useEnquiry();
 
-  const slide = heroSlides[index];
-  const added = has(slide.id);
+  const slide = heroSlides[index % TOTAL];
+  const added = slide ? has(slide.id) : false;
 
   const go = (step: number) => setIndex((i) => (i + step + TOTAL) % TOTAL);
 
@@ -62,14 +65,17 @@ export function Hero() {
       SLIDE_MS,
     );
     return () => clearTimeout(timer);
-  }, [index, reduceMotion]);
+  }, [index, reduceMotion, TOTAL]);
+
+  // The admin cannot hide the last slide, so this only guards an empty database.
+  if (!slide) return null;
 
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative isolate overflow-hidden bg-[var(--brand-charcoal)]">
         <div aria-hidden="true" className="absolute inset-0">
-          {reduceMotion ? (
-            <Image
+          {reduceMotion || !heroBrand.backgroundVideo ? (
+            heroSlides[0] && <Image
               src={heroSlides[0].image}
               alt=""
               fill
@@ -79,8 +85,8 @@ export function Hero() {
             />
           ) : (
             <video
-              src={featuredVideos[3].src}
-              poster={featuredVideos[3].poster}
+              src={heroBrand.backgroundVideo.url}
+              poster={heroBrand.backgroundVideo.posterUrl ?? undefined}
               autoPlay
               muted
               loop
@@ -169,7 +175,7 @@ export function Hero() {
                 See the collection
               </Link>
               <a
-                href={generalWhatsappUrl()}
+                href={generalWhatsappUrl(site)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-ivory)]"
@@ -283,7 +289,7 @@ export function Hero() {
                       toggle({
                         id: slide.id,
                         name: slide.name,
-                        image: slide.image,
+                        image: imageUrl(slide.image, 800),
                       })
                     }
                     className={cn(

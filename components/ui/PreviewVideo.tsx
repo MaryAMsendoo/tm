@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { enquiryThumbnail } from "../../lib/data";
 
 export function PreviewVideo({
   src,
   className,
-  poster = enquiryThumbnail(src),
+  poster,
 }: {
   src: string;
   className: string;
-  /** Still shown until the video can play. Defaults to the video's known poster. */
+  /** Still shown until the video can play. */
   poster?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);

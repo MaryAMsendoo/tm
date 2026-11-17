@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { EnquiryProvider } from "../context/EnquiryContext";
+import { RequestProvider } from "../context/RequestContext";
+import { SiteProvider } from "../context/SiteContext";
+import { getCategories, getSettings } from "../lib/server/content";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { EnquiryDrawer } from "../components/layout/EnquiryDrawer";
@@ -23,15 +26,20 @@ const cormorant = Cormorant_Garamond({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "TM Artisan Company Ltd",
-  description: "Crafted furniture and luxury statement pieces for refined spaces.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSettings("site");
+  return {
+    title: { default: site.name, template: `%s | ${site.shortName}` },
+    description: site.description || "Crafted furniture and luxury statement pieces for refined spaces.",
+  };
+}
 
 // Applies the saved theme before first paint so there is no flash.
 const themeScript = `try{var t=localStorage.getItem("tm-theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`;
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const [site, categories] = await Promise.all([getSettings("site"), getCategories()]);
+
   return (
     <html
       lang="en"
@@ -42,13 +50,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="min-h-full flex flex-col">
-        <EnquiryProvider>
-          <Navbar />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <EnquiryDrawer />
-          <WhatsAppFab />
-        </EnquiryProvider>
+        <SiteProvider site={site} categories={categories}>
+          <EnquiryProvider>
+            <RequestProvider>
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <Footer />
+              <EnquiryDrawer />
+              <WhatsAppFab />
+            </RequestProvider>
+          </EnquiryProvider>
+        </SiteProvider>
       </body>
     </html>
   );

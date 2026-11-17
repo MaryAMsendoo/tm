@@ -5,52 +5,30 @@ import Image from "next/image";
 import { MotionConfig, motion } from "framer-motion";
 import { Check, Plus } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { categories, featuredVideos, portfolioProjects } from "../../lib/data";
+import type { PortfolioItem } from "../../lib/types";
+import { imageUrl } from "../../lib/media";
+import { useCategories } from "../../context/SiteContext";
 import { useEnquiry } from "../../context/EnquiryContext";
 import { PreviewVideo } from "../ui/PreviewVideo";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const RATIOS = ["aspect-[4/5]", "aspect-square", "aspect-[3/4]", "aspect-[4/3]"];
 
-const portfolioMedia = portfolioProjects.flatMap((project, index) => {
-  const image = {
-    id: project.id,
-    title: project.title,
-    category: project.category,
-    location: project.location,
-    src: project.image,
-    type: "image" as const,
-  };
-  const video = featuredVideos[index];
-
-  return video
-    ? [
-        image,
-        {
-          id: video.id,
-          title: video.title,
-          category: video.category,
-          src: video.src,
-          type: "video" as const,
-        },
-      ]
-    : [image];
-});
-
-const chips = [
-  { slug: null as string | null, label: "All" },
-  ...categories
-    .filter((category) => portfolioMedia.some((item) => item.category === category.slug))
-    .map((c) => ({ slug: c.slug as string | null, label: c.label })),
-];
-
-export function PortfolioGallery() {
+export function PortfolioGallery({ items: portfolioMedia }: { items: PortfolioItem[] }) {
+  const categories = useCategories();
   const [category, setCategory] = useState<string | null>(null);
   const { has, toggle } = useEnquiry();
 
+  const chips = [
+    { slug: null as string | null, label: "All" },
+    ...categories
+      .filter((c) => portfolioMedia.some((item) => item.category === c.slug))
+      .map((c) => ({ slug: c.slug as string | null, label: c.label })),
+  ];
+
   const items = useMemo(
     () => portfolioMedia.filter((item) => !category || item.category === category),
-    [category],
+    [category, portfolioMedia],
   );
 
   return (
@@ -117,6 +95,7 @@ export function PortfolioGallery() {
                 {item.type === "video" ? (
                   <PreviewVideo
                     src={item.src}
+                    poster={item.poster}
                     className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
                   />
                 ) : (
@@ -150,7 +129,7 @@ export function PortfolioGallery() {
                     toggle({
                       id: item.id,
                       name: item.title,
-                      image: item.src,
+                      image: imageUrl(item.type === "video" ? (item.poster ?? "") : item.src, 800),
                       category: categoryLabel,
                     })
                   }

@@ -7,16 +7,12 @@ import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { Check, Plus, Search, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import {
-  categories,
-  products,
-  showroomArchiveItems,
-  siteConfig,
-  type Product,
-  type ShowroomArchiveItem,
-} from "../../lib/data";
-import { productWhatsappUrl, whatsappUrl } from "../../lib/whatsapp";
+import type { Product, ShowroomArchiveItem } from "../../lib/types";
+import { productEnquiryText } from "../../lib/whatsapp";
+import { imageUrl } from "../../lib/media";
 import { useEnquiry } from "../../context/EnquiryContext";
+import { useRequest } from "../../context/RequestContext";
+import { useCategories, useSite } from "../../context/SiteContext";
 import { PreviewVideo } from "../../components/ui/PreviewVideo";
 import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
 import { WordReveal } from "../../components/ui/WordReveal";
@@ -24,13 +20,26 @@ import { ProductCard } from "../../components/shop/ProductCard";
 import { QuickView } from "../../components/shop/QuickView";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const shopFilterCategories = categories.filter(
-  (category) =>
-    products.some((product) => product.category === category.slug) ||
-    showroomArchiveItems.some((item) => item.category === category.slug),
-);
 
-export function ShopView() {
+/** A still image for the quote list: the photo itself, or a video's poster. */
+const thumbnail = (item: ShowroomArchiveItem) =>
+  imageUrl(item.type === "video" ? (item.poster ?? "") : item.image, 800);
+
+export function ShopView({
+  products,
+  showroomArchiveItems,
+}: {
+  products: Product[];
+  showroomArchiveItems: ShowroomArchiveItem[];
+}) {
+  const site = useSite();
+  const categories = useCategories();
+  const { request } = useRequest();
+  const shopFilterCategories = categories.filter(
+    (c) =>
+      products.some((product) => product.category === c.slug) ||
+      showroomArchiveItems.some((item) => item.category === c.slug),
+  );
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -77,7 +86,7 @@ export function ShopView() {
         categories.find((c) => c.slug === p.category)?.label ?? "";
       return `${p.name} ${p.description} ${label}`.toLowerCase().includes(q);
     });
-  }, [category, query]);
+  }, [category, query, categories, products]);
 
   const chips = [
     { slug: null as string | null, label: "All" },
@@ -97,7 +106,7 @@ export function ShopView() {
   const mixedArchive = (() => {
     const groups = new Map<string, ShowroomArchiveItem[]>();
     for (const item of filteredArchive) {
-      const key = item.id.replace(/-\d+$/, "");
+      const key = item.series;
       const group = groups.get(key);
       if (group) group.push(item);
       else groups.set(key, [item]);
@@ -239,19 +248,22 @@ export function ShopView() {
                   : "We make to order, so it may still be something we can build. Send us a photo or a description."}
               </p>
               {!(category && filteredArchive.length > 0 && !query.trim()) && (
-                <a
-                  href={whatsappUrl(
-                    `Hello ${siteConfig.shortName}, I was looking for ${query.trim() || "a piece"} and could not find it on the site.`,
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() =>
+                    request({
+                      channel: "whatsapp",
+                      kind: "general",
+                      message: `Hello ${site.shortName}, I was looking for ${query.trim() || "a piece"} and could not find it on the site.`,
+                    })
+                  }
                   className="group mt-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-wood)]"
                 >
                   <FaWhatsapp size={17} />
                   <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
                     Ask on WhatsApp
                   </span>
-                </a>
+                </button>
               )}
             </div>
           )}
@@ -273,7 +285,6 @@ export function ShopView() {
               {mixedArchive.map((item) => {
                 const category = categories.find((c) => c.slug === item.category)?.label ?? item.category;
                 const added = has(item.id);
-                const itemWhatsapp = productWhatsappUrl({ name: item.title, category });
 
                 return (
                   <li
@@ -284,6 +295,7 @@ export function ShopView() {
                       {item.type === "video" ? (
                         <PreviewVideo
                           src={item.image}
+                          poster={item.poster}
                           className="h-full w-full object-cover"
                         />
                       ) : (
@@ -324,7 +336,7 @@ export function ShopView() {
                             toggle({
                               id: item.id,
                               name: item.title,
-                              image: item.image,
+                              image: thumbnail(item),
                               category,
                             })
                           }
@@ -338,16 +350,22 @@ export function ShopView() {
                           {added ? "In Quote List" : "Add to Quote List"}
                         </button>
 
-                        <a
-                          href={itemWhatsapp}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
+                          type="button"
+                          onClick={() =>
+                            request({
+                              channel: "whatsapp",
+                              kind: "single_item",
+                              items: [{ id: item.id, name: item.title, category, image: thumbnail(item) }],
+                              message: productEnquiryText(site, { name: item.title, category }),
+                            })
+                          }
                           aria-label={`Ask about ${item.title} on WhatsApp`}
                           className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[var(--border-subtle)] px-3.5 py-2 text-xs font-medium text-[var(--brand-wood)] transition hover:border-[var(--brand-gold)] hover:bg-[var(--surface-faint)]"
                         >
                           <FaWhatsapp size={13} />
                           WhatsApp
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </li>
@@ -433,7 +451,7 @@ export function ShopView() {
                     toggle({
                       id: showroomView.id,
                       name: showroomView.title,
-                      image: showroomView.image,
+                      image: thumbnail(showroomView),
                       category:
                         categories.find((category) => category.slug === showroomView.category)?.label ??
                         showroomView.category,

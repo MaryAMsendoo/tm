@@ -4,15 +4,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "../../components/ui/PageHeader";
 import { Reveal } from "../../components/ui/Reveal";
 import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
-import {
-  ceoMessage,
-  craftsmanship,
-  mission,
-  ourStory,
-  portfolioProjects,
-  values,
-  vision,
-} from "../../lib/data";
+import { getPortfolio, getSettings } from "../../lib/server/content";
 
 export const metadata: Metadata = {
   title: "About",
@@ -20,11 +12,22 @@ export const metadata: Metadata = {
     "TM Artisan Company Ltd makes bespoke furniture and interiors in Abuja. Built to Belong.",
 };
 
-const featuredWork = portfolioProjects.filter((p) =>
-  ["p-kitchen-island", "p-bedroom-wardrobe", "p-tv-wall"].includes(p.id),
-);
+/** Portfolio pieces shown under "See the work"; any other photos fill in if these are removed. */
+const FEATURED_TITLES = ["Open-plan kitchen with marble island", "Wardrobe wall with dressing table", "Living room TV wall"];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [about, ceoMessage, portfolio] = await Promise.all([
+    getSettings("about"),
+    getSettings("founder"),
+    getPortfolio(),
+  ]);
+  const { ourStory, craftsmanship, mission, vision, values } = about;
+  const photos = portfolio.filter((p) => p.type === "image");
+  const featuredWork = [
+    ...FEATURED_TITLES.flatMap((title) => photos.filter((p) => p.title === title)),
+    ...photos.filter((p) => !FEATURED_TITLES.includes(p.title)),
+  ].slice(0, 3);
+
   return (
     <>
       <PageHeader
@@ -39,15 +42,17 @@ export default function AboutPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 px-5 py-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20 lg:px-8 lg:py-20">
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
             {/* A real site photo, so visitors see the work being done by the team. */}
+            {ourStory.photo && (
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--brand-cream)]">
               <Image
-                src="/bookshelf-oak-maker-001.jpeg"
-                alt="On site in front of a finished TM Artisan oak bookshelf"
+                src={ourStory.photo.url}
+                alt="On site in front of a finished TM Artisan piece"
                 fill
                 sizes="(min-width: 1024px) 34vw, 92vw"
                 className="object-cover"
               />
             </div>
+            )}
           </Reveal>
 
           <Reveal delay={0.1}>
@@ -114,7 +119,7 @@ export default function AboutPage() {
             {ceoMessage.photo ? (
               <div className="relative mt-8 aspect-[4/5] max-w-sm overflow-hidden rounded-2xl">
                 <Image
-                  src={ceoMessage.photo}
+                  src={ceoMessage.photo.url}
                   alt={`${ceoMessage.name}, ${ceoMessage.role}`}
                   fill
                   sizes="(min-width: 1024px) 30vw, 80vw"
@@ -140,7 +145,7 @@ export default function AboutPage() {
               <div className="flex items-center gap-4">
                 {ceoMessage.portrait ? (
                   <Image
-                    src={ceoMessage.portrait}
+                    src={ceoMessage.portrait.url}
                     alt={ceoMessage.name}
                     width={64}
                     height={64}
@@ -228,7 +233,7 @@ export default function AboutPage() {
                 <Link href="/portfolio" className="group block">
                   <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--brand-cream)]">
                     <Image
-                      src={w.image}
+                      src={w.src}
                       alt={w.title}
                       fill
                       sizes="(min-width: 640px) 30vw, 92vw"

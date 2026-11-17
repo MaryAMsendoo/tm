@@ -5,18 +5,16 @@ import Link from "next/link";
 import { MotionConfig, motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
-import { siteConfig } from "../../lib/data";
-import { whatsappUrl } from "../../lib/whatsapp";
+import { useRequest } from "../../context/RequestContext";
+import { useSite } from "../../context/SiteContext";
 import { SectionBackdrop } from "../ui/SectionBackdrop";
 import { WordReveal } from "../ui/WordReveal";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// Placeholders: swap for real custom-job photos later.
-const MAIN_IMAGE = "/f12.png";
-const SECOND_IMAGE = "/f19.png";
-
-export function CustomDesigns() {
+export function CustomDesigns({ mainImage, secondImage }: { mainImage: string; secondImage: string }) {
+  const siteConfig = useSite();
+  const { request } = useRequest();
   return (
     <MotionConfig reducedMotion="user">
       <section className="relative overflow-hidden">
@@ -33,7 +31,7 @@ export function CustomDesigns() {
               className="relative aspect-[4/5] w-[82%] overflow-hidden rounded-2xl bg-[var(--brand-cream)]"
             >
               <Image
-                src={MAIN_IMAGE}
+                src={mainImage}
                 alt="A custom wall unit with floating shelves and a round mirror"
                 fill
                 sizes="(min-width: 1024px) 34vw, 70vw"
@@ -49,7 +47,7 @@ export function CustomDesigns() {
               className="absolute bottom-0 right-0 aspect-[3/4] w-[46%] overflow-hidden rounded-2xl border-4 border-[var(--brand-ivory)] bg-[var(--brand-cream)] shadow-[0_24px_60px_rgba(47,27,22,0.22)]"
             >
               <Image
-                src={SECOND_IMAGE}
+                src={secondImage}
                 alt="A shaped mirror with warm edge lighting"
                 fill
                 sizes="(min-width: 1024px) 16vw, 36vw"
@@ -89,19 +87,22 @@ export function CustomDesigns() {
                     className="transition group-hover:translate-x-0.5"
                   />
                 </Link>
-                <a
-                  href={whatsappUrl(
-                    `Hello ${siteConfig.shortName}, I have a design in mind and I'd like to talk about it.`,
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <button
+                  type="button"
+                  onClick={() =>
+                    request({
+                      channel: "whatsapp",
+                      kind: "custom",
+                      message: `Hello ${siteConfig.shortName}, I have a design in mind and I'd like to talk about it.`,
+                    })
+                  }
                   className="group inline-flex items-center gap-2 text-sm font-medium text-[var(--brand-wood)]"
                 >
                   <FaWhatsapp size={17} />
                   <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover:border-[var(--brand-wood)]">
                     Send your idea on WhatsApp
                   </span>
-                </a>
+                </button>
               </div>
             </motion.div>
           </div>

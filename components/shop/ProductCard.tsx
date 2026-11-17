@@ -4,9 +4,12 @@ import Image from "next/image";
 import { Check, Plus } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import { categories, type Product } from "../../lib/data";
-import { productWhatsappUrl } from "../../lib/whatsapp";
+import type { Product } from "../../lib/types";
+import { productEnquiryText } from "../../lib/whatsapp";
 import { useEnquiry } from "../../context/EnquiryContext";
+import { useRequest } from "../../context/RequestContext";
+import { useCategoryLabel, useSite } from "../../context/SiteContext";
+import { imageUrl } from "../../lib/media";
 
 export function ProductCard({
   product,
@@ -17,9 +20,9 @@ export function ProductCard({
 }) {
   const { has, toggle } = useEnquiry();
   const added = has(product.id);
-  const categoryLabel = categories.find(
-    (c) => c.slug === product.category,
-  )?.label;
+  const site = useSite();
+  const { request } = useRequest();
+  const categoryLabel = useCategoryLabel(product.category);
 
   return (
     <article className="group">
@@ -77,20 +80,23 @@ export function ProductCard({
             {added ? "Added" : "Add to enquiry"}
           </button>
 
-          <a
-            href={productWhatsappUrl({
-              name: product.name,
-              category: categoryLabel,
-            })}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() =>
+              request({
+                channel: "whatsapp",
+                kind: "single_item",
+                items: [{ id: product.id, name: product.name, category: categoryLabel, image: imageUrl(product.images[0], 800) }],
+                message: productEnquiryText(site, { name: product.name, category: categoryLabel }),
+              })
+            }
             className="group/wa inline-flex items-center gap-1.5 text-sm font-medium text-[var(--brand-wood)]"
           >
             <FaWhatsapp size={16} />
             <span className="border-b border-[var(--brand-gold)] pb-0.5 transition group-hover/wa:border-[var(--brand-wood)]">
               Ask on WhatsApp
             </span>
-          </a>
+          </button>
         </div>
       </div>
     </article>

@@ -13,12 +13,15 @@ import {
 import { ClipboardList, MapPin, Menu, Phone, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { cn } from "../../lib/utils";
-import { navLinks, siteConfig } from "../../lib/data";
+import { BRAND_LOGO } from "../../lib/brand";
+import { navLinks } from "../../lib/types";
 import { generalWhatsappUrl } from "../../lib/whatsapp";
 import { useEnquiry } from "../../context/EnquiryContext";
+import { useSite } from "../../context/SiteContext";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function Navbar() {
+  const siteConfig = useSite();
   const pathname = usePathname();
   const { count, open } = useEnquiry();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,15 +43,17 @@ export function Navbar() {
             {siteConfig.address}
           </span>
           <div className="flex items-center gap-6">
+            {siteConfig.phones[0] && (
+              <a
+                href={`tel:${siteConfig.phones[0]}`}
+                className="flex items-center gap-2 transition hover:text-[var(--brand-gold)]"
+              >
+                <Phone size={13} className="text-[var(--brand-gold)]" />
+                {siteConfig.phones[0]}
+              </a>
+            )}
             <a
-              href={`tel:${siteConfig.phones[0]}`}
-              className="flex items-center gap-2 transition hover:text-[var(--brand-gold)]"
-            >
-              <Phone size={13} className="text-[var(--brand-gold)]" />
-              {siteConfig.phones[0]}
-            </a>
-            <a
-              href={generalWhatsappUrl()}
+              href={generalWhatsappUrl(siteConfig)}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 transition hover:text-[var(--brand-gold)]"
@@ -80,7 +85,7 @@ export function Navbar() {
             onClick={() => setMenuOpen(false)}
           >
             <Image
-              src={siteConfig.logo}
+              src={BRAND_LOGO}
               alt={`${siteConfig.name} logo`}
               width={44}
               height={44}
@@ -184,7 +189,7 @@ export function Navbar() {
                   </Link>
                 ))}
                 <a
-                  href={generalWhatsappUrl()}
+                  href={generalWhatsappUrl(siteConfig)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand-gold)] px-5 py-3 text-sm font-medium text-[var(--brand-wood-deep)] transition hover:bg-[var(--brand-gold-deep)]"

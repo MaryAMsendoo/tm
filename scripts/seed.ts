@@ -1,5 +1,6 @@
 /**
- * One-time content migration: lib/data.ts + public/ media -> Neon + Cloudinary.
+ * One-time content migration: scripts/seed-data.ts (the original site content)
+ * and its media -> Neon + Cloudinary.
  *
  *   npm run db:seed            refuses if content already exists
  *   npm run db:seed -- --reset deletes catalogue and site content first
@@ -18,7 +19,7 @@ import type { MediaRef } from "../db/schema";
 import { MEDIA_FOLDER, getCloudinary } from "../lib/cloudinary-server";
 import { videoPosterUrl } from "../lib/media";
 import { settingsSchemas } from "../lib/content-schemas";
-import * as data from "../lib/data";
+import * as data from "./seed-data";
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 const reset = process.argv.includes("--reset");
@@ -27,22 +28,42 @@ const reset = process.argv.includes("--reset");
 
 const uploaded = new Map<string, MediaRef>();
 
+/**
+ * Cloudinary ID for a file: its name without extension, or with the
+ * extension appended when two files differ only by extension
+ * (ceo-tm.jpeg and ceo-tm.png -> ceo-tm-jpeg, ceo-tm-png). Without this,
+ * overwrite: false made the second file silently reuse the first.
+ */
+const CLASHING_NAMES = new Set(["ceo-tm"]);
+function cloudinaryName(src: string) {
+  const base = path.basename(src);
+  const name = base.replace(/\.[^.]+$/, "");
+  return CLASHING_NAMES.has(name) ? `${name}-${base.split(".").pop()}` : name;
+}
+
 async function upload(src: string): Promise<MediaRef> {
   const cached = uploaded.get(src);
   if (cached) return cached;
 
   const file = path.join(PUBLIC_DIR, decodeURIComponent(src.replace(/^\//, "")));
-  if (!existsSync(file)) throw new Error(`Missing file in public/: ${src}`);
-
   const kind = /\.(mp4|webm|mov|m4v)$/i.test(src) ? "video" : "image";
-  const name = path.basename(src).replace(/\.[^.]+$/, "");
-  const res = await getCloudinary().uploader.upload(file, {
-    resource_type: kind,
-    public_id: name,
-    folder: `${MEDIA_FOLDER}/library`,
-    overwrite: false,
-    unique_filename: false,
-  });
+  const name = cloudinaryName(src);
+
+  // The media files were removed from public/ after the first migration (they
+  // are still in git history); reuse the copies already in Cloudinary.
+  const res = existsSync(file)
+    ? await getCloudinary().uploader.upload(file, {
+        resource_type: kind,
+        public_id: name,
+        folder: `${MEDIA_FOLDER}/library`,
+        overwrite: false,
+        unique_filename: false,
+      })
+    : await getCloudinary()
+        .api.resource(`${MEDIA_FOLDER}/library/${name}`, { resource_type: kind })
+        .catch(() => {
+          throw new Error(`${src} is neither in public/ nor in Cloudinary (${MEDIA_FOLDER}/library/${name}).`);
+        });
 
   const ref: MediaRef = {
     kind,
@@ -71,7 +92,7 @@ async function uploadAll(srcs: string[]) {
   await Promise.all(Array.from({ length: 5 }, worker));
 }
 
-/** A video's poster: a real photo when lib/data.ts names one, else a Cloudinary still frame. */
+/** A video's poster: a real photo when the seed data names one, else a Cloudinary still frame. */
 async function videoRef(src: string, poster?: string): Promise<MediaRef> {
   const ref = await upload(src);
   if (poster && !poster.endsWith("-poster.jpeg")) {
@@ -116,7 +137,7 @@ async function main() {
   const [{ n: existing }] = await db.select({ n: count() }).from(t.categories);
   if (existing > 0 && !reset) {
     console.error("The database already has content. Nothing was changed.");
-    console.error("To replace catalogue and site content with lib/data.ts, run: npm run db:seed -- --reset");
+    console.error("To replace catalogue and site content with the seed data, run: npm run db:seed -- --reset");
     console.error("(Enquiries and admin accounts are never touched.)");
     process.exitCode = 1;
     return;
@@ -310,7 +331,7 @@ async function main() {
   await verify();
 }
 
-/** Compare what is in the database with lib/data.ts. */
+/** Compare what is in the database with the seed data. */
 async function verify() {
   const n = async (table: PgTable) => (await db.select({ n: count() }).from(table))[0].n;
   const media = await db.select({ kind: t.productMedia.kind }).from(t.productMedia);
@@ -348,7 +369,7 @@ async function verify() {
     process.exitCode = 1;
     console.error("\nSome counts do not match. Review before using the database.");
   } else {
-    console.log("\nAll counts match lib/data.ts.");
+    console.log("\nAll counts match the seed data.");
   }
 }
 

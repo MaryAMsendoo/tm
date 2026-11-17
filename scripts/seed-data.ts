@@ -1,9 +1,9 @@
 /**
- * Central "database" for the site.
- * Everything the UI shows lives here, so when a real backend arrives
- * only this layer needs to change.
+ * The site's original content, before the database. Used only by scripts/seed.ts
+ * to fill a new database; the live site reads everything from Neon.
  *
- * Products come next (see the Product type we'll add in the next step).
+ * (Formerly lib/data.ts.) Media paths refer to files that were in public/;
+ * they now live in Cloudinary under tm-artisan/library/ with the same names.
  */
 
 export type SocialKey =

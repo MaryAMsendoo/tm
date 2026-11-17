@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { PageHeader } from "../../components/ui/PageHeader";
-import { Reveal } from "../../components/ui/Reveal";
-import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
-import { CustomRequestForm } from "../../components/custom/CustomRequestForm";
-import { customOptions, otherServices } from "../../lib/static-content";
-import { getActiveCategories } from "../../lib/server/content";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { Reveal } from "@/components/ui/Reveal";
+import { SectionBackdrop } from "@/components/ui/SectionBackdrop";
+import { CustomRequestForm } from "@/components/custom/CustomRequestForm";
+import { customOptions, otherServices } from "@/lib/static-content";
+import { getActiveCategories } from "@/lib/server/content";
 
 export const metadata: Metadata = {
   title: "Custom designs",

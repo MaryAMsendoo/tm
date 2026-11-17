@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { PageHeader } from "../../components/ui/PageHeader";
-import { Reveal } from "../../components/ui/Reveal";
-import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
-import { getPortfolio, getSettings } from "../../lib/server/content";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { Reveal } from "@/components/ui/Reveal";
+import { SectionBackdrop } from "@/components/ui/SectionBackdrop";
+import { getPortfolio, getSettings } from "@/lib/server/content";
 
 export const metadata: Metadata = {
   title: "About",

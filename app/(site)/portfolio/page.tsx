@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PageHeader } from "../../components/ui/PageHeader";
-import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
-import { PortfolioGallery } from "../../components/portfolio/PortfolioGallery";
-import { getPortfolio } from "../../lib/server/content";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { SectionBackdrop } from "@/components/ui/SectionBackdrop";
+import { PortfolioGallery } from "@/components/portfolio/PortfolioGallery";
+import { getPortfolio } from "@/lib/server/content";
 
 export const metadata: Metadata = {
   title: "Portfolio",

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
-import { PageHeader } from "../../components/ui/PageHeader";
-import { Reveal } from "../../components/ui/Reveal";
-import { SectionBackdrop } from "../../components/ui/SectionBackdrop";
-import { getSettings } from "../../lib/server/content";
-import { generalWhatsappUrl } from "../../lib/whatsapp";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { Reveal } from "@/components/ui/Reveal";
+import { SectionBackdrop } from "@/components/ui/SectionBackdrop";
+import { getSettings } from "@/lib/server/content";
+import { generalWhatsappUrl } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Contact",

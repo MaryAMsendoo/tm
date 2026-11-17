@@ -1,5 +1,5 @@
 import { FeaturedPieces } from "@/components/home/FeaturedPieces";
-import { Hero } from "../components/home/Hero";
+import { Hero } from "@/components/home/Hero";
 import { ShopByRoom } from "@/components/home/ShopByRoom";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { CustomDesigns } from "@/components/home/CustomDesigns";

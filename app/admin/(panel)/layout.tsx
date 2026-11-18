@@ -3,6 +3,13 @@ import { Suspense } from "react";
 import { requireAdmin } from "@/lib/server/auth";
 import { AdminNav } from "@/components/admin/AdminNav";
 
+/**
+ * Admin pages may block while navigating: each one checks the session and
+ * reads live data at request time, so serving them instantly from a cache
+ * isn't wanted. (Silences Next's dev-only "instant navigation" insight.)
+ */
+export const instant = false;
+
 export const metadata: Metadata = {
   title: { default: "Admin", template: "%s | Admin" },
   robots: { index: false, follow: false },

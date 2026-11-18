@@ -7,9 +7,8 @@ import { categories, productMedia, products } from "@/db/schema";
 import { requireAdmin } from "@/lib/server/auth";
 import { ConfirmButton, PageTitle } from "@/components/admin/ui";
 import { secondaryButtonClass } from "@/components/admin/styles";
-import { deleteProduct, updateProduct } from "../actions";
-import { ProductForm } from "../ProductForm";
-import { MediaManager } from "./MediaManager";
+import { deleteProduct, updateProductWithMedia } from "../actions";
+import { ProductEditor } from "../ProductEditor";
 
 export const metadata = { title: "Edit product" };
 
@@ -40,13 +39,14 @@ export default async function EditProductPage({ params, searchParams }: PageProp
         )}
       </PageTitle>
 
-      <ProductForm
-        action={updateProduct.bind(null, product.id)}
+      <ProductEditor
         categories={cats}
-        submitLabel="Save details"
-        values={{
+        save={updateProductWithMedia.bind(null, product.id)}
+        submitLabel="Save changes"
+        savingLabel="Saving..."
+        initialDetails={{
           name: product.name,
-          categoryId: product.categoryId,
+          categoryId: String(product.categoryId),
           description: product.description,
           dimensions: product.dimensions ?? "",
           materials: product.materials ?? "",
@@ -55,16 +55,10 @@ export default async function EditProductPage({ params, searchParams }: PageProp
           inShop: product.inShop,
           visible: product.visible,
         }}
-      />
-
-      <MediaManager
-        productId={product.id}
-        productName={product.name}
-        media={media.map((m) => ({
+        initialItems={media.map((m) => ({
+          key: `saved-${m.id}`,
           id: m.id,
-          kind: m.kind,
-          url: m.url,
-          posterUrl: m.posterUrl,
+          preview: { kind: m.kind, url: m.url, posterUrl: m.posterUrl },
           title: m.title ?? "",
           description: m.description ?? "",
         }))}

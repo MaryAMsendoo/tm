@@ -58,22 +58,71 @@ async function categoryExists(id: number) {
   return !!row;
 }
 
-export async function createProduct(_prev: ActionResult, formData: FormData): Promise<ActionResult> {
+export type NewProductInput = {
+  name: string;
+  categoryId: number | string;
+  description: string;
+  dimensions: string;
+  materials: string;
+  customisable: boolean;
+  featured: boolean;
+  inShop: boolean;
+  visible: boolean;
+  media: { file: MediaRef; title: string; description: string }[];
+};
+
+/** Create a product and all its photos/videos (already uploaded to Cloudinary) in one step. */
+export async function createProductWithMedia(input: NewProductInput): Promise<ActionResult> {
   await requireAdmin();
-  const parsed = readProductForm(formData);
+  const parsed = productSchema.safeParse(input);
   if (!parsed.success) return { error: firstIssue(parsed.error) };
   if (!(await categoryExists(parsed.data.categoryId))) return { error: "Pick a category." };
 
-  const [row] = await db
-    .insert(products)
-    .values({
-      ...parsed.data,
-      slug: await uniqueSlug(products, parsed.data.name),
-      sortOrder: await nextSortOrder(products),
-    })
-    .returning({ id: products.id });
+  const items = Array.isArray(input.media) ? input.media.slice(0, 100) : [];
+  let media;
+  try {
+    media = items.map((m) => ({
+      file: parseUploadedMedia(m.file),
+      ...captionSchema.parse({ title: m.title ?? "", description: m.description ?? "" }),
+    }));
+  } catch (err) {
+    return { error: err instanceof Error ? err.message : "Invalid photo details." };
+  }
+
+  const slug = await uniqueSlug(products, parsed.data.name);
+  const sortOrder = await nextSortOrder(products);
+  const id = await db.transaction(async (tx) => {
+    const [row] = await tx.insert(products).values({ ...parsed.data, slug, sortOrder }).returning({ id: products.id });
+    if (media.length) {
+      await tx.insert(productMedia).values(
+        media.map(({ file, title, description }, i) => ({
+          productId: row.id,
+          kind: file.kind,
+          publicId: file.publicId,
+          url: file.url,
+          posterUrl: file.posterUrl ?? null,
+          width: file.width ?? null,
+          height: file.height ?? null,
+          title: title || null,
+          description: description || null,
+          sortOrder: i,
+        })),
+      );
+    }
+    return row.id;
+  });
   refreshContent(TAGS_TO_REFRESH, "/admin/products");
-  redirect(`/admin/products/${row.id}?created=1`);
+  redirect(`/admin/products/${id}?created=1`);
+}
+
+/**
+ * A file uploaded on the New product form, then removed before saving.
+ * Deleted from Cloudinary unless something already uses it.
+ */
+export async function discardUpload(input: MediaRef) {
+  await requireAdmin();
+  const file = parseUploadedMedia(input);
+  await deleteMediaIfUnused(file);
 }
 
 export async function updateProduct(id: number, _prev: ActionResult, formData: FormData): Promise<ActionResult> {

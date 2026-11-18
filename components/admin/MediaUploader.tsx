@@ -71,12 +71,15 @@ export function MediaUploader({
   accept = "image/*,video/*",
   multiple = false,
   label = "Upload",
+  onBusyChange,
 }: {
   folder: Folder;
   onUploaded: (media: MediaRef) => void | Promise<void>;
   accept?: string;
   multiple?: boolean;
   label?: string;
+  /** Told when uploading starts and stops (e.g. to disable a Save button meanwhile). */
+  onBusyChange?: (busy: boolean) => void;
 }) {
   const input = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState<string | null>(null);
@@ -87,6 +90,7 @@ export function MediaUploader({
     if (!files?.length) return;
     setError(null);
     setBusy(true);
+    onBusyChange?.(true);
     const list = [...files];
     try {
       for (const [i, file] of list.entries()) {
@@ -107,6 +111,7 @@ export function MediaUploader({
       setStatus(null);
     } finally {
       setBusy(false);
+      onBusyChange?.(false);
       if (input.current) input.current.value = "";
     }
   };

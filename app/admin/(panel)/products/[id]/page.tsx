@@ -32,7 +32,7 @@ export default async function EditProductPage({ params, searchParams }: PageProp
       <Link href="/admin/products" className="mb-6 inline-flex items-center gap-2 text-sm text-(--text-muted) hover:text-(--brand-wood)">
         <ArrowLeft size={16} /> All products
       </Link>
-      <PageTitle title={product.name} intro={created ? "Product created. Now upload its photos and videos below." : undefined}>
+      <PageTitle title={product.name} intro={created ? "Product created. You can change anything below." : undefined}>
         {category && (
           <a href={`/shop?category=${category.slug}`} target="_blank" rel="noopener noreferrer" className={secondaryButtonClass}>
             <ExternalLink size={16} /> View in shop

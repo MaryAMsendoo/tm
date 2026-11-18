@@ -21,7 +21,12 @@ the content and reviews requests at `/admin`.
    CLOUDINARY_CLOUD_NAME=...
    CLOUDINARY_API_KEY=...
    CLOUDINARY_API_SECRET=...
+   KEEP_CLOUDINARY_FILES=1              # local copies never delete Cloudinary files
    ```
+
+   `.env.local` should point at a Neon **dev branch**, not the live database, so testing
+   never changes the real site. Keep the live connection in `.env.live` (same variables,
+   live `DATABASE_URL`, without `KEEP_CLOUDINARY_FILES`); only the `:live` scripts read it.
 
 3. `npm run db:migrate` creates the tables.
 4. `npm run db:seed` fills a **new, empty** database with the original site content.
@@ -40,8 +45,14 @@ the content and reviews requests at `/admin`.
 | `npm run db:seed` | Fill an empty database from `scripts/seed-data.ts`. `-- --reset` **replaces all catalogue and site content** (keeps requests and admin accounts). |
 | `npm run admin:create -- <username>` | New admin account. |
 | `npm run admin:reset-password -- <username>` | New password; signs the admin out everywhere. There is no "forgot password" email by design: a developer runs this. |
+| `npm run admin:reset-password:live -- <username>` | The same on the **live** database (`.env.live`). Also `admin:create:live`. |
+| `npm run db:migrate:live` | Apply migrations to the live database. Run it after a schema change, before deploying. |
 
 Set `ADMIN_PASSWORD` in the environment to run the admin scripts without the prompt.
+
+Why `KEEP_CLOUDINARY_FILES`: the dev branch and the live site share one Cloudinary
+account, and a dev copy can't see which files the live site still uses. With it set,
+deleting things locally leaves the files in Cloudinary (a few stray files cost nothing).
 
 ## How it fits together
 
@@ -80,6 +91,9 @@ itself**: the layout's check alone does not protect page data.
 ## Deploying
 
 Any Node.js host works (`npm run build` then `npm run start`); keep the app in or near
-Frankfurt, where the database is. Set the four environment variables on the host.
+Frankfurt, where the database is. Set the four environment variables on the host
+(not `KEEP_CLOUDINARY_FILES`). Link previews, `robots.txt` and `sitemap.xml` use Vercel's
+production address; on another host or a custom domain, also set
+`NEXT_PUBLIC_SITE_URL=https://your-domain`.
 The app uses no host-specific services, so it can move between hosts.
 Note: Vercel's free Hobby plan does not allow commercial use.

@@ -105,6 +105,9 @@ export async function isMediaInUse(publicId: string) {
 /** Delete a Cloudinary file if no content uses it any more. Never throws. */
 export async function deleteMediaIfUnused(media: { publicId: string; kind: "image" | "video" } | null | undefined) {
   if (!media) return;
+  // A local copy working on its own dev database can't see what the live site
+  // still uses, and both share one Cloudinary account, so it never deletes files.
+  if (process.env.KEEP_CLOUDINARY_FILES === "1") return;
   try {
     if (!(await isMediaInUse(media.publicId))) await deleteMedia(media.publicId, media.kind);
   } catch (err) {

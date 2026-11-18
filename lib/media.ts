@@ -34,3 +34,8 @@ export function videoPosterUrl(videoUrl: string) {
 export function cloudinaryLoader({ src, width }: { src: string; width: number; quality?: number }) {
   return imageUrl(src, width);
 }
+
+/** 1200x630 JPEG for link previews (WhatsApp, Facebook, X), cropped around the subject. */
+export function socialImageUrl(url: string) {
+  return withTransform(url, "c_fill,g_auto,w_1200,h_630,f_jpg,q_auto");
+}

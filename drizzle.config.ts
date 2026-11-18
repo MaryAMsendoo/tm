@@ -1,8 +1,9 @@
 import { defineConfig } from "drizzle-kit";
 
-// drizzle-kit does not read .env.local on its own.
+// drizzle-kit does not read .env.local on its own. `npm run db:migrate:live`
+// passes the live database instead (.env.live), which must win.
 try {
-  process.loadEnvFile(".env.local");
+  if (!process.env.DATABASE_URL) process.loadEnvFile(".env.local");
 } catch {
   // Fine in CI or hosting, where the variables come from the environment.
 }

@@ -12,7 +12,10 @@
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx --env-file=.env.local scripts/seed.ts",
     "admin:create": "tsx --env-file=.env.local scripts/admin.ts create",
-    "admin:reset-password": "tsx --env-file=.env.local scripts/admin.ts reset-password"
+    "admin:reset-password": "tsx --env-file=.env.local scripts/admin.ts reset-password",
+    "db:migrate:live": "node --env-file=.env.live ./node_modules/drizzle-kit/bin.cjs migrate",
+    "admin:create:live": "tsx --env-file=.env.live scripts/admin.ts create",
+    "admin:reset-password:live": "tsx --env-file=.env.live scripts/admin.ts reset-password"
   },
   "dependencies": {
     "cloudinary": "^2.11.0",

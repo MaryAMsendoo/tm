@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { and, asc, eq, ilike, inArray, type SQL } from "drizzle-orm";
+import { and, asc, count, eq, ilike, inArray, type SQL } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import { db } from "@/db";
 import { categories, productMedia, products } from "@/db/schema";
 import { requireAdmin } from "@/lib/server/auth";
-import { cardClass, inputClass, primaryButtonClass, secondaryButtonClass } from "@/components/admin/styles";
+import { cardClass, primaryButtonClass } from "@/components/admin/styles";
 import { MediaThumb, MoveButtons, PageTitle } from "@/components/admin/ui";
 import { moveProduct } from "./actions";
+import { ProductFilters } from "./ProductFilters";
 
 export const metadata = { title: "Products" };
 
@@ -20,8 +21,9 @@ export default async function ProductsPage({ searchParams }: PageProps<"/admin/p
   if (categoryId) filters.push(eq(products.categoryId, categoryId));
   if (q) filters.push(ilike(products.name, `%${q.replace(/[%_\\]/g, "\\$&")}%`));
 
-  const [cats, rows] = await Promise.all([
+  const [cats, counts, rows] = await Promise.all([
     db.select().from(categories).orderBy(asc(categories.sortOrder), asc(categories.id)),
+    db.select({ categoryId: products.categoryId, n: count() }).from(products).groupBy(products.categoryId),
     db
       .select()
       .from(products)
@@ -35,6 +37,9 @@ export default async function ProductsPage({ searchParams }: PageProps<"/admin/p
         .where(inArray(productMedia.productId, rows.map((r) => r.id)))
         .orderBy(asc(productMedia.sortOrder), asc(productMedia.id))
     : [];
+  const countFor = (id: number) => counts.find((c) => c.categoryId === id)?.n ?? 0;
+  const total = counts.reduce((sum, c) => sum + c.n, 0);
+  const filtered = Boolean(categoryId || q);
   const label = (id: number) => cats.find((c) => c.id === id)?.label ?? "—";
   // Reordering only makes sense on the full list.
   const canReorder = !categoryId && !q;
@@ -47,20 +52,16 @@ export default async function ProductsPage({ searchParams }: PageProps<"/admin/p
         </Link>
       </PageTitle>
 
-      <form className="mb-6 flex flex-col gap-3 sm:flex-row">
-        <select name="category" defaultValue={categoryId ?? ""} className={`${inputClass} sm:max-w-56`}>
-          <option value="">All categories</option>
-          {cats.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.label}
-            </option>
-          ))}
-        </select>
-        <input name="q" defaultValue={q} placeholder="Search by name" className={inputClass} />
-        <button type="submit" className={secondaryButtonClass}>
-          Filter
-        </button>
-      </form>
+      <ProductFilters
+        categories={cats.map((c) => ({ id: c.id, label: c.label, count: countFor(c.id) }))}
+        category={categoryId}
+        q={q}
+      />
+      <p className="mb-4 text-sm text-(--text-muted)">
+        {filtered
+          ? `Showing ${rows.length} of ${total} products.`
+          : `All ${total} products. Use the arrows to change the order they appear on the website.`}
+      </p>
 
       {rows.length === 0 ? (
         <p className={`${cardClass} p-8 text-center text-sm text-(--text-muted)`}>No products found.</p>
